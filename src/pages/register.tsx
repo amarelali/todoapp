@@ -4,54 +4,56 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Title from "../components/ui/Title";
 import Label from "../components/ui/label";
-
+import firstimg from "../assets/img/1.png";
+import secondimg from "../assets/img/2.png";
 interface IProps {}
 const Register = ({}: IProps) => {
-  const [registeredUser, setRegisteredUser] = useState(false);
+  const [registeredUser, setRegisteredUser] = useState(true);
 
   // **
   const SignInForm = (): ReactNode => {
     return (
       <form>
         <Title>Sign in</Title>
-        <div className="flex h-[55px] gap-3 items-center mt-[62px]">
+        <div className="flex h-[55px] gap-3 items-center mt-[62px] lg:gap-[20px]">
           <Anchor
             href="https://google.com"
-            className="flex gap-[12px] bg-[#FFF4E3] rounded-[9px] px-[17px] py-[18px] text-[#E48700] text-[12px]"
+            className="flex gap-[12px] bg-[#FFF4E3] rounded-[9px] px-[17px] py-[18px] text-[#E48700] text-[12px]  lg:text-base lg:w-[298px]"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="19"
-              viewBox="0 0 18 19"
-              fill="none"
-            >
-              <path
-                d="M16.8759 9.68478C16.8759 9.00132 16.8223 8.50257 16.7063 7.98535H9.16162V11.0702H13.5902C13.5009 11.8368 13.0188 12.9913 11.9473 13.7671L11.9323 13.8704L14.3178 15.782L14.483 15.7991C16.0009 14.349 16.8759 12.2155 16.8759 9.68478Z"
-                fill="#E48700"
-              />
-              <path
-                d="M9.16098 17.8126C11.3306 17.8126 13.152 17.0736 14.4824 15.7991L11.9467 13.7671C11.2681 14.2566 10.3574 14.5983 9.16098 14.5983C7.03601 14.5983 5.23246 13.1483 4.58954 11.144L4.4953 11.1523L2.01486 13.1381L1.98242 13.2314C3.30383 15.9468 6.01811 17.8126 9.16098 17.8126Z"
-                fill="#34A853"
-              />
-              <path
-                d="M4.58998 11.1439C4.42034 10.6267 4.32216 10.0725 4.32216 9.49988C4.32216 8.92721 4.42034 8.37306 4.58105 7.85585L4.57656 7.7457L2.06503 5.72803L1.98285 5.76846C1.43824 6.89528 1.12573 8.16065 1.12573 9.49988C1.12573 10.8391 1.43824 12.1044 1.98285 13.2312L4.58998 11.1439Z"
-                fill="#FBBC05"
-              />
-              <path
-                d="M9.16103 4.40165C10.6699 4.40165 11.6878 5.07588 12.2682 5.63932L14.536 3.34875C13.1432 2.00952 11.3306 1.1875 9.16103 1.1875C6.01814 1.1875 3.30384 3.05318 1.98242 5.76858L4.58063 7.85596C5.23248 5.85173 7.03604 4.40165 9.16103 4.40165Z"
-                fill="#EB4335"
-              />
-            </svg>
+            <span className="w-[18px] h-[19px] lg:w-[26px] lg:h-[26px]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 18 19"
+                fill="none"
+              >
+                <path
+                  d="M16.8759 9.68478C16.8759 9.00132 16.8223 8.50257 16.7063 7.98535H9.16162V11.0702H13.5902C13.5009 11.8368 13.0188 12.9913 11.9473 13.7671L11.9323 13.8704L14.3178 15.782L14.483 15.7991C16.0009 14.349 16.8759 12.2155 16.8759 9.68478Z"
+                  fill="#E48700"
+                />
+                <path
+                  d="M9.16098 17.8126C11.3306 17.8126 13.152 17.0736 14.4824 15.7991L11.9467 13.7671C11.2681 14.2566 10.3574 14.5983 9.16098 14.5983C7.03601 14.5983 5.23246 13.1483 4.58954 11.144L4.4953 11.1523L2.01486 13.1381L1.98242 13.2314C3.30383 15.9468 6.01811 17.8126 9.16098 17.8126Z"
+                  fill="#34A853"
+                />
+                <path
+                  d="M4.58998 11.1439C4.42034 10.6267 4.32216 10.0725 4.32216 9.49988C4.32216 8.92721 4.42034 8.37306 4.58105 7.85585L4.57656 7.7457L2.06503 5.72803L1.98285 5.76846C1.43824 6.89528 1.12573 8.16065 1.12573 9.49988C1.12573 10.8391 1.43824 12.1044 1.98285 13.2312L4.58998 11.1439Z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M9.16103 4.40165C10.6699 4.40165 11.6878 5.07588 12.2682 5.63932L14.536 3.34875C13.1432 2.00952 11.3306 1.1875 9.16103 1.1875C6.01814 1.1875 3.30384 3.05318 1.98242 5.76858L4.58063 7.85596C5.23248 5.85173 7.03604 4.40165 9.16103 4.40165Z"
+                  fill="#EB4335"
+                />
+              </svg>
+            </span>
             Sign in with google
           </Anchor>
-          <div className="flex gap-2 h-full">
-            <div className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center">
-              <Anchor href="www.facebook.com">
+          <div className="flex gap-2 lg:gap-[13px] h-full">
+            <div className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center lg:w-[60px] lg:px-4">
+              <Anchor
+                href="www.facebook.com"
+                className="w-[18px] lg:w-[29px]"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
                   viewBox="0 0 18 18"
                   fill="none"
                 >
@@ -82,12 +84,10 @@ const Register = ({}: IProps) => {
                 </svg>
               </Anchor>
             </div>
-            <div className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center">
-              <Anchor href="www.apple.com">
+            <div className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center lg:w-[60px] lg:px-4">
+              <Anchor href="www.apple.com" className="w-[18px] lg:w-[29px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
                   viewBox="0 0 18 18"
                   fill="none"
                 >
@@ -107,7 +107,11 @@ const Register = ({}: IProps) => {
         <div className="inputs mt-[52px] flex flex-col gap-[38px]">
           <div className="space-y-[16px]">
             <Label> Enter your username or email address</Label>
-            <Input className="w-full" type="text" placeholder="Username or email address" />
+            <Input
+              className="w-full"
+              type="text"
+              placeholder="Username or email address"
+            />
           </div>
           <div className="space-y-[16px]">
             <Label>Enter your Password</Label>
@@ -115,7 +119,10 @@ const Register = ({}: IProps) => {
           </div>
         </div>
         <div className="flex justify-end mt-3">
-          <Anchor href="" className="text-[#E48700] text-[11px]">
+          <Anchor
+            href=""
+            className="text-[#E48700] text-[11px] lg:text-[13px]"
+          >
             Forget Password
           </Anchor>
         </div>
@@ -130,23 +137,27 @@ const Register = ({}: IProps) => {
         <div className="inputs mt-[52px] flex flex-col gap-[38px]">
           <div className="space-y-[16px]">
             <Label> Enter your username or email address</Label>
-            <Input className="w-full" type="text" placeholder="Username or email address" />
+            <Input
+              className="w-full"
+              type="text"
+              placeholder="Username or email address"
+            />
           </div>
           <div className="space-y-[16px]">
-            <div className="flex gap-[11.49px]">
-              <div className="w-2/4">
+            <div className="flex gap-[11.49px] lg:justify-between">
+              <div className="flex flex-col sm:w-2/4 lg:w-[216px]">
                 <Label>User Name</Label>
                 <Input
                   type="text"
-                  className="w-[130.642px] pt-5 pb-4 pl-[7.86px] pr-0 text-sm font-light"
+                  className="w-[130.642px] lg:w-full pt-5 pb-4 pl-[7.86px] pr-0 text-sm font-light"
                   placeholder="User Name"
                 />
               </div>
-              <div className="w-2/4">
+              <div className="flex flex-col sm:w-2/4 lg:w-[216px]">
                 <Label> Contact Number</Label>
                 <Input
                   type="text"
-                  className="w-[130.642px] pb-4 pl-[7.86px] pr-0 text-sm font-light"
+                  className="w-[130.642px] lg:w-full pb-4 pl-[7.86px] pr-0 text-sm font-light"
                   placeholder="Contact Number"
                 />
               </div>
@@ -163,30 +174,51 @@ const Register = ({}: IProps) => {
     );
   };
   return (
-    <div className="container flex justify-center">
+    <div className="h-screen p-0 lg:flex relative">
+      <div
+        className="w-[100%] lg:w-[50%] h-screen flex justify-center items-center flex-shrink-0"
+        style={{ backgroundColor: "rgba(236, 188, 118, 1)" }}
+      >
+        <img
+          src={firstimg}
+          className="hidden lg:block w-[269px] h-[256px]"
+        />
+      </div>
+      <div className="hidden lg:w-[50%] lg:flex justify-center items-center flex-shrink-0">
+        <img src={secondimg} className="hidden lg:block w-[450px] h-[450px]" />
+      </div>
       <div
         style={{ backgroundColor: "white" }}
-        className="rounded-[40px] h-[741px] w-[326px] px-[27px] pt-11"
+        className="rounded-[40px] h-[741px] w-[326px] px-[27px] pt-11 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 lg:w-[539px] lg:h-[741px]"
       >
         <div className="flex justify-between">
-          <div className="text-base font-normal text-nowrap">
+          <div className="text-base lg:text-[20px] font-normal text-nowrap">
             Welcome to
             <span className="text-[#E48700] font-semibold">&nbsp; LOREM</span>
           </div>
           <div className="flex">
-          {registeredUser ? (
-            <div className="flex flex-col font-normal text-[13px] w-[92px]">
-              <span className="text-[#8D8D8D]">No Account?</span>
-              <span className="text-[#E48700] cursor-pointer" onClick={()=>setRegisteredUser(!registeredUser)}>Sign up</span>
-            </div>
-          ) : (
-            <div className="flex flex-col font-normal text-[13px] w-[76px]">
-              <span className="text-[#8D8D8D]">Have an Account?</span>
-              <span className="text-[#E48700] cursor-pointer" onClick={()=>setRegisteredUser(!registeredUser)}>Sign in</span>
-            </div>
-          )}
+            {registeredUser ? (
+              <div className="flex flex-col font-normal text-[13px] w-[92px] lg:text-[16px] lg:w-[124px]">
+                <span className="text-[#8D8D8D]">No Account?</span>
+                <span
+                  className="text-[#E48700] cursor-pointer"
+                  onClick={() => setRegisteredUser(!registeredUser)}
+                >
+                  Sign up
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col font-normal text-[13px] w-[76px] lg:text-[16px] lg:w-[122px]">
+                <span className="text-[#8D8D8D]">Have an Account?</span>
+                <span
+                  className="text-[#E48700] cursor-pointer"
+                  onClick={() => setRegisteredUser(!registeredUser)}
+                >
+                  Sign in
+                </span>
+              </div>
+            )}
           </div>
-
         </div>
         {registeredUser ? SignInForm() : SignUpForm()}
       </div>

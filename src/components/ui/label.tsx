@@ -5,7 +5,7 @@ interface IProps extends LabelHTMLAttributes<HTMLLabelElement> {
 }
 const label = ({ children, ...rest }: IProps) => {
   return (
-    <label className="text-sm font-normal" {...rest}>
+    <label className="text-sm font-normal lg:text-base" {...rest}>
       {children}
     </label>
   );

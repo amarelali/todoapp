@@ -10,8 +10,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgba(236, 188, 118, 1);
 }
-*{
+
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }

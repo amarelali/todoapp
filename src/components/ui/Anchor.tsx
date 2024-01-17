@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes } from "react";
+import { AnchorHTMLAttributes, ReactNode } from "react";
 
 interface IProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   children: ReactNode;
