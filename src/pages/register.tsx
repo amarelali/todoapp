@@ -15,12 +15,12 @@ const Register = ({}: IProps) => {
     return (
       <form>
         <Title>Sign in</Title>
-        <div className="flex h-[55px] gap-3 items-center mt-[62px] lg:gap-[20px]">
+        <div className="flex h-[55px] gap-3 items-center mt-[62px] lg:mt-[40px] 2xl:mt-[62px] lg:gap-[20px]">
           <Anchor
             href="https://google.com"
             className="flex gap-[12px] bg-[#FFF4E3] rounded-[9px] px-[17px] py-[18px] text-[#E48700] text-[12px]  lg:text-base lg:w-[298px]"
           >
-            <span className="w-[18px] h-[19px] lg:w-[26px] lg:h-[26px]">
+            <span className="w-[18px] h-[19px] lg:w-[26px] 2xl:h-[26px]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 18 19"
@@ -104,8 +104,8 @@ const Register = ({}: IProps) => {
             </div>
           </div>
         </div>
-        <div className="inputs mt-[52px] flex flex-col gap-[38px]">
-          <div className="space-y-[16px]">
+        <div className="inputs mt-[52px] lg:mt-[32px] flex flex-col gap-[38px]">
+          <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
             <Label> Enter your username or email address</Label>
             <Input
               className="w-full"
@@ -113,7 +113,7 @@ const Register = ({}: IProps) => {
               placeholder="Username or email address"
             />
           </div>
-          <div className="space-y-[16px]">
+          <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
             <Label>Enter your Password</Label>
             <Input className="w-full" type="password" placeholder="Password" />
           </div>
@@ -189,7 +189,7 @@ const Register = ({}: IProps) => {
       </div>
       <div
         style={{ backgroundColor: "white" }}
-        className="rounded-[40px] h-[741px] w-[326px] px-[27px] pt-11 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 lg:w-[539px] lg:h-[741px]"
+        className="rounded-[40px] h-[680px] w-[326px] px-[27px] pt-11 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 lg:w-[539px] 2xl:h-[741px]"
       >
         <div className="flex justify-between">
           <div className="text-base lg:text-[20px] font-normal text-nowrap">
@@ -198,7 +198,7 @@ const Register = ({}: IProps) => {
           </div>
           <div className="flex">
             {registeredUser ? (
-              <div className="flex flex-col font-normal text-[13px] w-[92px] lg:text-[16px] lg:w-[124px]">
+              <div className="flex flex-col font-normal text-[13px] w-[92px] 2xl:text-[16px] 2xl:w-[124px]">
                 <span className="text-[#8D8D8D]">No Account?</span>
                 <span
                   className="text-[#E48700] cursor-pointer"
@@ -208,7 +208,7 @@ const Register = ({}: IProps) => {
                 </span>
               </div>
             ) : (
-              <div className="flex flex-col font-normal text-[13px] w-[76px] lg:text-[16px] lg:w-[122px]">
+              <div className="flex flex-col font-normal text-[13px] w-[76px] 2xl:text-[16px] 2xl:w-[122px]">
                 <span className="text-[#8D8D8D]">Have an Account?</span>
                 <span
                   className="text-[#E48700] cursor-pointer"
