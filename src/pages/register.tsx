@@ -47,61 +47,62 @@ const Register = ({}: IProps) => {
             Sign in with google
           </Anchor>
           <div className="flex gap-2 lg:gap-[13px] h-full">
-            <div className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center lg:w-[60px] lg:px-4">
-              <Anchor
-                href="www.facebook.com"
+            <Anchor
+              href="www.facebook.com"
+              className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center lg:w-[60px] lg:px-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 18 18"
+                fill="none"
                 className="w-[18px] lg:w-[29px]"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                >
-                  <ellipse
-                    cx="9"
-                    cy="8.27978"
-                    rx="7.875"
-                    ry="7.875"
-                    fill="url(#paint0_linear_45_193)"
-                  />
-                  <path
-                    d="M11.9327 11.4084L12.2825 9.18568H10.0942V7.74393C10.0942 7.13571 10.3993 6.54248 11.3795 6.54248H12.375V4.65018C12.375 4.65018 11.4719 4.5 10.6089 4.5C8.80585 4.5 7.62844 5.56478 7.62844 7.49163V9.18568H5.625V11.4084H7.62844V16.7819C8.03065 16.8435 8.44213 16.875 8.86131 16.875C9.28049 16.875 9.69197 16.8435 10.0942 16.7819V11.4084H11.9327Z"
-                    fill="white"
-                  />
-                  <defs>
-                    <linearGradient
-                      id="paint0_linear_45_193"
-                      x1="9"
-                      y1="0.404785"
-                      x2="9"
-                      y2="16.1081"
-                      gradientUnits="userSpaceOnUse"
-                    >
-                      <stop stop-color="#18ACFE" />
-                      <stop offset="1" stop-color="#0163E0" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </Anchor>
-            </div>
-            <div className="h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center lg:w-[60px] lg:px-4">
-              <Anchor href="www.apple.com" className="w-[18px] lg:w-[29px]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                >
-                  <path
-                    d="M16.875 9C16.875 13.347 13.3509 16.875 9 16.875C4.64906 16.875 1.125 13.347 1.125 9C1.125 4.64906 4.64906 1.125 9 1.125C13.3509 1.125 16.875 4.64906 16.875 9Z"
-                    fill="#283544"
-                  />
-                  <path
-                    d="M12.6912 7.00728C12.6482 7.03235 11.6252 7.5614 11.6252 8.73442C11.6734 10.0722 12.9162 10.5413 12.9375 10.5413C12.9162 10.5664 12.7499 11.1804 12.2573 11.8241C11.8663 12.3785 11.4324 12.9375 10.7734 12.9375C10.1467 12.9375 9.92165 12.568 9.19844 12.568C8.42177 12.568 8.20201 12.9375 7.60736 12.9375C6.94843 12.9375 6.48236 12.3485 6.07009 11.7993C5.53449 11.0805 5.07925 9.95237 5.06318 8.8692C5.05235 8.29523 5.17044 7.73102 5.47021 7.25178C5.8933 6.58274 6.64866 6.12857 7.47355 6.1136C8.10558 6.09374 8.66808 6.51795 9.05379 6.51795C9.42344 6.51795 10.1145 6.1136 10.8964 6.1136C11.2339 6.11392 12.1339 6.20866 12.6912 7.00728ZM9.00034 5.999C8.88784 5.47483 9.19844 4.95067 9.48772 4.61631C9.85737 4.21195 10.4412 3.9375 10.9446 3.9375C10.9768 4.46166 10.7731 4.97574 10.409 5.35014C10.0824 5.75449 9.51987 6.0589 9.00034 5.999Z"
-                    fill="white"
-                  />
-                </svg>
-              </Anchor>
-            </div>
+                <ellipse
+                  cx="9"
+                  cy="8.27978"
+                  rx="7.875"
+                  ry="7.875"
+                  fill="url(#paint0_linear_45_193)"
+                />
+                <path
+                  d="M11.9327 11.4084L12.2825 9.18568H10.0942V7.74393C10.0942 7.13571 10.3993 6.54248 11.3795 6.54248H12.375V4.65018C12.375 4.65018 11.4719 4.5 10.6089 4.5C8.80585 4.5 7.62844 5.56478 7.62844 7.49163V9.18568H5.625V11.4084H7.62844V16.7819C8.03065 16.8435 8.44213 16.875 8.86131 16.875C9.28049 16.875 9.69197 16.8435 10.0942 16.7819V11.4084H11.9327Z"
+                  fill="white"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_45_193"
+                    x1="9"
+                    y1="0.404785"
+                    x2="9"
+                    y2="16.1081"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#18ACFE" />
+                    <stop offset="1" stop-color="#0163E0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </Anchor>
+            <Anchor
+              href="www.apple.com"
+              className=" h-full rounded-[9px] bg-[#F2F2F2] px-[9px] flex items-center lg:w-[60px] lg:px-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 18 18"
+                fill="none"
+                className="w-[18px] lg:w-[29px] "
+              >
+                <path
+                  d="M16.875 9C16.875 13.347 13.3509 16.875 9 16.875C4.64906 16.875 1.125 13.347 1.125 9C1.125 4.64906 4.64906 1.125 9 1.125C13.3509 1.125 16.875 4.64906 16.875 9Z"
+                  fill="#283544"
+                />
+                <path
+                  d="M12.6912 7.00728C12.6482 7.03235 11.6252 7.5614 11.6252 8.73442C11.6734 10.0722 12.9162 10.5413 12.9375 10.5413C12.9162 10.5664 12.7499 11.1804 12.2573 11.8241C11.8663 12.3785 11.4324 12.9375 10.7734 12.9375C10.1467 12.9375 9.92165 12.568 9.19844 12.568C8.42177 12.568 8.20201 12.9375 7.60736 12.9375C6.94843 12.9375 6.48236 12.3485 6.07009 11.7993C5.53449 11.0805 5.07925 9.95237 5.06318 8.8692C5.05235 8.29523 5.17044 7.73102 5.47021 7.25178C5.8933 6.58274 6.64866 6.12857 7.47355 6.1136C8.10558 6.09374 8.66808 6.51795 9.05379 6.51795C9.42344 6.51795 10.1145 6.1136 10.8964 6.1136C11.2339 6.11392 12.1339 6.20866 12.6912 7.00728ZM9.00034 5.999C8.88784 5.47483 9.19844 4.95067 9.48772 4.61631C9.85737 4.21195 10.4412 3.9375 10.9446 3.9375C10.9768 4.46166 10.7731 4.97574 10.409 5.35014C10.0824 5.75449 9.51987 6.0589 9.00034 5.999Z"
+                  fill="white"
+                />
+              </svg>
+            </Anchor>
           </div>
         </div>
         <div className="inputs mt-[52px] lg:mt-[32px] flex flex-col gap-[38px]">
@@ -119,10 +120,7 @@ const Register = ({}: IProps) => {
           </div>
         </div>
         <div className="flex justify-end mt-3">
-          <Anchor
-            href=""
-            className="text-[#E48700] text-[11px] lg:text-[13px]"
-          >
+          <Anchor href="" className="text-[#E48700] text-[11px] lg:text-[13px]">
             Forget Password
           </Anchor>
         </div>
@@ -179,10 +177,7 @@ const Register = ({}: IProps) => {
         className="w-[100%] lg:w-[50%] h-screen flex justify-start 2xl:justify-center items-center flex-shrink-0"
         style={{ backgroundColor: "rgba(236, 188, 118, 1)" }}
       >
-        <img
-          src={firstimg}
-          className="hidden lg:block w-[269px] h-[256px]"
-        />
+        <img src={firstimg} className="hidden lg:block w-[269px] h-[256px]" />
       </div>
       <div className="hidden lg:w-[50%] lg:flex justify-end 2xl:justify-center items-center flex-shrink-0">
         <img src={secondimg} className="hidden lg:block w-[450px] h-[450px]" />
