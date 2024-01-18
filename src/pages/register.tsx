@@ -15,7 +15,7 @@ const Register = ({}: IProps) => {
     return (
       <form>
         <Title>Sign in</Title>
-        <div className="flex h-[55px] gap-3 items-center mt-[62px] lg:mt-[40px] 2xl:mt-[62px] lg:gap-[20px]">
+        <div className="flex h-[55px] gap-3 items-center mt-[62px] lg:mt-[40px] 2xl:mt-[62px] lg:justify-between">
           <Anchor
             href="https://google.com"
             className="flex gap-[12px] bg-[#FFF4E3] rounded-[9px] px-[17px] py-[18px] text-[#E48700] text-[12px]  lg:text-base lg:w-[298px]"
@@ -176,7 +176,7 @@ const Register = ({}: IProps) => {
   return (
     <div className="h-screen p-0 lg:flex relative">
       <div
-        className="w-[100%] lg:w-[50%] h-screen flex justify-center items-center flex-shrink-0"
+        className="w-[100%] lg:w-[50%] h-screen flex justify-start 2xl:justify-center items-center flex-shrink-0"
         style={{ backgroundColor: "rgba(236, 188, 118, 1)" }}
       >
         <img
@@ -184,7 +184,7 @@ const Register = ({}: IProps) => {
           className="hidden lg:block w-[269px] h-[256px]"
         />
       </div>
-      <div className="hidden lg:w-[50%] lg:flex justify-center items-center flex-shrink-0">
+      <div className="hidden lg:w-[50%] lg:flex justify-end 2xl:justify-center items-center flex-shrink-0">
         <img src={secondimg} className="hidden lg:block w-[450px] h-[450px]" />
       </div>
       <div
