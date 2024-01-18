@@ -6,6 +6,7 @@ import Title from "../components/ui/Title";
 import Label from "../components/ui/label";
 import firstimg from "../assets/img/1.png";
 import secondimg from "../assets/img/2.png";
+import { IInputForm } from "../interfaces";
 interface IProps {}
 const Register = ({}: IProps) => {
   const [registeredUser, setRegisteredUser] = useState(true);
@@ -106,18 +107,18 @@ const Register = ({}: IProps) => {
           </div>
         </div>
         <div className="inputs mt-[52px] lg:mt-[32px] flex flex-col gap-[38px]">
-          <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
-            <Label> Enter your username or email address</Label>
-            <Input
-              className="w-full"
-              type="text"
-              placeholder="Username or email address"
-            />
-          </div>
-          <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
-            <Label>Enter your Password</Label>
-            <Input className="w-full" type="password" placeholder="Password" />
-          </div>
+          {renderInput({
+            label: "Enter your username or email address",
+            type: "text",
+            placeholder: "Username or email address",
+            inputClassName: "w-full",
+          })}
+          {renderInput({
+            label: "Enter your password",
+            type: "password",
+            placeholder: "Password",
+            inputClassName: "w-full",
+          })}
         </div>
         <div className="flex justify-end mt-3">
           <Anchor href="" className="text-[#E48700] text-[11px] lg:text-[13px]">
@@ -133,42 +134,55 @@ const Register = ({}: IProps) => {
       <form>
         <Title>Sign up</Title>
         <div className="inputs mt-[52px] flex flex-col gap-[38px]">
-          <div className="space-y-[16px]">
-            <Label> Enter your username or email address</Label>
-            <Input
-              className="w-full"
-              type="text"
-              placeholder="Username or email address"
-            />
+          {renderInput({
+            label: "Enter your username or email address",
+            placeholder: "Username or email address",
+            type: "text",
+            inputClassName: "w-full",
+          })}
+          <div className="flex gap-[11.49px]">
+            {renderInput({
+              label: "User Name",
+              type: "text",
+              inputClassName:
+                "w-[130.642px] lg:w-full pt-5 pb-4 pl-[7.86px] pr-0 text-sm font-light",
+              placeholder: "Username",
+            })}
+            {renderInput({
+              label: "Contact Number",
+              type: "text",
+              inputClassName:
+                "w-[130.642px] lg:w-full pb-4 pl-[7.86px] pr-0 text-sm font-light",
+              placeholder: "Contact Number",
+            })}
           </div>
-          <div className="space-y-[16px]">
-            <div className="flex gap-[11.49px] lg:justify-between">
-              <div className="flex flex-col sm:w-2/4 lg:w-[216px]">
-                <Label>User Name</Label>
-                <Input
-                  type="text"
-                  className="w-[130.642px] lg:w-full pt-5 pb-4 pl-[7.86px] pr-0 text-sm font-light"
-                  placeholder="User Name"
-                />
-              </div>
-              <div className="flex flex-col sm:w-2/4 lg:w-[216px]">
-                <Label> Contact Number</Label>
-                <Input
-                  type="text"
-                  className="w-[130.642px] lg:w-full pb-4 pl-[7.86px] pr-0 text-sm font-light"
-                  placeholder="Contact Number"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="space-y-[16px]">
-            <Label>Enter your Password</Label>
-            <Input className="w-full" type="password" placeholder="Password" />
-          </div>
+          {renderInput({
+            label: "Enter your Password",
+            placeholder: "Password",
+            type: "password",
+            inputClassName: "w-full",
+          })}
         </div>
-
         <Button>Sign up</Button>
       </form>
+    );
+  };
+  // ** Renders
+  const renderInput = ({
+    label,
+    type,
+    placeholder,
+    inputClassName,
+  }: IInputForm): ReactNode => {
+    return (
+      <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
+        <Label>{label}</Label>
+        <Input
+          className={inputClassName}
+          type={type}
+          placeholder={placeholder}
+        />
+      </div>
     );
   };
   return (
