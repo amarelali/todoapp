@@ -4,6 +4,8 @@ import Button from "./ui/Button";
 import Title from "./ui/Title";
 import { IInputForm, IInputProps, IAuthForm } from "../interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { signInSchema } from "../validation";
 
 interface IProps {
   renderInput: (formInput: IInputForm & IInputProps) => ReactNode;
@@ -13,7 +15,9 @@ const SignInForm = ({ renderInput }: IProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAuthForm>();
+  } = useForm<IAuthForm>({
+    resolver: yupResolver(signInSchema)
+  });
   const onSubmit: SubmitHandler<IAuthForm> = (data) => console.log(data);
 
   return (
