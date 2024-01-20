@@ -116,15 +116,20 @@ const SignInForm = ({ renderInput }: IProps) => {
           placeholder: "Username or email address",
           inputClassName: "w-full",
           name:"email",
-          register
+          register,
+          required:'email is missing',
+          errors: errors.email?.message
         })}
+
         {renderInput({
           label: "Enter your password",
           type: "password",
           placeholder: "Password",
           inputClassName: "w-full",
           name:"password",
-          register
+          register,
+          required:'password is missing',
+          errors:errors.password?.message
         })}
       </div>
       <div className="flex justify-end mt-3">

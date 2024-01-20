@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import Input from "../components/ui/Input";
- import Label from "../components/ui/label";
+import Label from "../components/ui/label";
 import firstimg from "../assets/img/1.png";
 import secondimg from "../assets/img/2.png";
 import { IInputForm, IInputProps } from "../interfaces";
@@ -8,7 +8,7 @@ import SignInForm from "../components/SignInForm";
 import SignUpForm from "../components/SignUpForm";
 interface IProps {}
 
-const Auth= ({}: IProps) => {
+const Auth = ({}: IProps) => {
   const [registeredUser, setRegisteredUser] = useState(true);
 
   // ** Renders
@@ -18,8 +18,10 @@ const Auth= ({}: IProps) => {
     placeholder,
     inputClassName,
     name,
-    register
-    }: IInputForm & IInputProps): ReactNode => {
+    register,
+    required = "",
+    errors,
+  }: IInputForm & IInputProps): ReactNode => {
     return (
       <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
         <Label>{label}</Label>
@@ -27,8 +29,9 @@ const Auth= ({}: IProps) => {
           className={inputClassName}
           type={type}
           placeholder={placeholder}
-          {...register(name)}
+          {...register(name, { required })}
         />
+        {errors && <span style={{color:'#E48700'}}>{errors}</span>}
       </div>
     );
   };
@@ -76,7 +79,11 @@ const Auth= ({}: IProps) => {
             )}
           </div>
         </div>
-        {registeredUser ? <SignInForm renderInput={renderInput}/> : <SignUpForm renderInput={renderInput}/>}
+        {registeredUser ? (
+          <SignInForm renderInput={renderInput} />
+        ) : (
+          <SignUpForm renderInput={renderInput} />
+        )}
       </div>
     </div>
   );
