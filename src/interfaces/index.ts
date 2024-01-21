@@ -1,4 +1,4 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 export interface IInputForm {
     label: string, type: string, placeholder: string, inputClassName: string, name: "username" | "email" | "password" | "contact_number"
@@ -6,7 +6,7 @@ export interface IInputForm {
 export interface IAuthForm {
     email: string,
     username?: string;
-    contact_number?: unknown;
+    contact_number?: number;
     password: string;
 }
 export interface IInputProps {
