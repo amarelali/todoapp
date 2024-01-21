@@ -23,7 +23,7 @@ const SignUpForm = ({ renderInput }: IProps) => {
   return (
     <form>
       <Title>Sign up</Title>
-      <div className="inputs mt-[52px] flex flex-col gap-[38px]">
+      <div className="inputs my-[30px] flex flex-col gap-[30px]">
         {renderInput({
           label: "Enter your username or email address",
           placeholder: "Username or email address",
@@ -64,6 +64,7 @@ const SignUpForm = ({ renderInput }: IProps) => {
         })}
       </div>
       <Button onClick={handleSubmit(onSubmit)}>Sign up</Button>
+
     </form>
   );
 };

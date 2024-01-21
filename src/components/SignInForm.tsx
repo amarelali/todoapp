@@ -113,7 +113,7 @@ const SignInForm = ({ renderInput }: IProps) => {
           </Anchor>
         </div>
       </div>
-      <div className="inputs mt-[52px] lg:mt-[32px] flex flex-col gap-[38px]">
+      <div className="inputs mt-[30px] flex flex-col gap-[30px]">
         {renderInput({
           label: "Enter your username or email address",
           type: "text",
@@ -136,7 +136,7 @@ const SignInForm = ({ renderInput }: IProps) => {
           errors:errors.password?.message
         })}
       </div>
-      <div className="flex justify-end mt-3">
+      <div className="flex justify-end mt-3 mb-[30px]">
         <Anchor href="" className="text-[#E48700] text-[11px] lg:text-[13px]">
           Forget Password
         </Anchor>
