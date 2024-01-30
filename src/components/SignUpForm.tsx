@@ -9,12 +9,15 @@ import axiosInstance from "../config/axios.config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   renderInput: (formInput: IInputForm & IInputProps) => ReactNode;
 }
 
 const SignUpForm = ({ renderInput }: IProps) => {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -23,11 +26,15 @@ const SignUpForm = ({ renderInput }: IProps) => {
   } = useForm<IAuthForm>({
     resolver: yupResolver(signUpSchema),
   });
+
   const onSubmit: SubmitHandler<IAuthForm> = async (data) => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await axiosInstance.post(`auth/local/register`, data).then((res) => {
+        localStorage.setItem("userdata", res.data);
         toast.success("Welcome to TODO App!");
+        navigate("/todo");
       });
     } catch (error) {
       setIsLoading(false);
