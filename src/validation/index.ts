@@ -7,6 +7,6 @@ export const signInSchema = yup.object({
 export const signUpSchema = yup.object({
     email: yup.string().email().required(),
     password: yup.string().min(6).max(12).required(),
-    contact_number : yup.number(),
+    contact_number : yup.string(),
     username:yup.string()
 }).required();

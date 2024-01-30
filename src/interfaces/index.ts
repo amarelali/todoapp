@@ -6,7 +6,7 @@ export interface IInputForm {
 export interface IAuthForm {
     email: string,
     username?: string;
-    contact_number?: number;
+    contact_number?: string;
     password: string;
 }
 export interface IInputProps {
