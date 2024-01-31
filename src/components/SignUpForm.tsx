@@ -1,43 +1,51 @@
 import { ReactNode, useState } from "react";
-import { IInputForm, IInputProps, IAuthForm } from "../interfaces";
+import { IInputForm, IInputProps, IAuthFormSignUp } from "../interfaces";
 import Title from "./ui/Title";
 import Button from "./ui/Button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../validation";
 import axiosInstance from "../config/axios.config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
 interface IProps {
-  renderInput: (formInput: IInputForm & IInputProps) => ReactNode;
+  renderInput: (
+    formInput: IInputForm &
+      IInputProps & {
+        register: UseFormRegister<IAuthFormSignUp>;
+      }
+  ) => ReactNode;
 }
 
 const SignUpForm = ({ renderInput }: IProps) => {
-  const navigate = useNavigate();
-
+ 
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IAuthForm>({
+  } = useForm<IAuthFormSignUp>({
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit: SubmitHandler<IAuthForm> = async (data) => {
+  const onSubmit: SubmitHandler<IAuthFormSignUp> = async (data) => {
     setIsLoading(true);
 
     try {
-      await axiosInstance.post(`auth/local/register`, data).then((res) => {
-        localStorage.setItem("userdata", res.data);
-        toast.success("Welcome to TODO App!");
-        navigate("/todo");
-      });
+      await axiosInstance
+        .post(`auth/local/register`, data)
+        .then((res) => {
+          localStorage.setItem("userdata", res.data);
+          toast.success("Welcome to TODO App!");
+          location.replace("/todo");
+        })
+        .catch((error) => {
+          toast.error(error.message);
+        });
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.message);
       } else {

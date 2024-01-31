@@ -3,16 +3,17 @@ import Input from "../components/ui/Input";
 import Label from "../components/ui/label";
 import firstimg from "../assets/img/1.png";
 import secondimg from "../assets/img/2.png";
-import { IInputForm, IInputProps } from "../interfaces";
+import { IAuthFormSignIn, IAuthFormSignUp, IInputForm, IInputProps } from "../interfaces";
 import SignInForm from "../components/SignInForm";
 import SignUpForm from "../components/SignUpForm";
+import { Path, UseFormRegister } from "react-hook-form";
 interface IProps {}
 
 const Auth = ({}: IProps) => {
   const [registeredUser, setRegisteredUser] = useState(true);
 
   // ** Renders
-  const renderInput = ({
+  const renderInput = <T extends IAuthFormSignIn | IAuthFormSignUp>({
     label,
     type,
     placeholder,
@@ -21,7 +22,7 @@ const Auth = ({}: IProps) => {
     register,
     required = "",
     errors,
-  }: IInputForm & IInputProps): ReactNode => {
+  }: IInputForm & IInputProps & {register: UseFormRegister<T>}) : ReactNode => {
     return (
       <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
         <Label>{label}</Label>
@@ -29,7 +30,7 @@ const Auth = ({}: IProps) => {
           className={inputClassName}
           type={type}
           placeholder={placeholder}
-          {...register(name, { required })}
+          {...register(name as Path<T>, { required })}
         />
         {errors && <span style={{color:'#E48700'}}>{errors}</span>}
       </div>
