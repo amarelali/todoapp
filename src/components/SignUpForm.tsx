@@ -1,5 +1,10 @@
 import { ReactNode, useState } from "react";
-import { IInputForm, IInputProps, IAuthForm } from "../interfaces";
+import {
+  IInputForm,
+  IInputProps,
+  IAuthForm,
+  IErrorMessage,
+} from "../interfaces";
 import Title from "./ui/Title";
 import Button from "./ui/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -8,16 +13,13 @@ import { signUpSchema } from "../validation";
 import axiosInstance from "../config/axios.config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 interface IProps {
   renderInput: (formInput: IInputForm & IInputProps) => ReactNode;
 }
 
 const SignUpForm = ({ renderInput }: IProps) => {
-  const navigate = useNavigate();
-
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -27,22 +29,26 @@ const SignUpForm = ({ renderInput }: IProps) => {
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit: SubmitHandler<IAuthForm> = async (data) => {
+  const onSubmit: SubmitHandler<IAuthForm> = async (formData) => {
     setIsLoading(true);
 
     try {
-      await axiosInstance.post(`auth/local/register`, data).then((res) => {
-        localStorage.setItem("userdata", res.data);
+      const { data, status } = await axiosInstance.post(
+        `auth/local/register`,
+        formData
+      );
+      if (status === 200) {
+        localStorage.setItem("userdata", data);
+        console.log(data);
         toast.success("Welcome to TODO App!");
-        navigate("/todo");
-      });
+        setTimeout(() => {
+          location.replace("/todo");
+        }, 1000);
+      }
     } catch (error) {
       setIsLoading(false);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error.message);
-      } else {
-        toast.error("Something went wrong ");
-      }
+      const errorObj = error as AxiosError<IErrorMessage>;
+      toast.error(errorObj.response?.data.error.message);
     } finally {
       setIsLoading(false);
     }

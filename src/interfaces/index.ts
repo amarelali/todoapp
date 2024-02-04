@@ -14,3 +14,9 @@ export interface IInputProps {
     required?: string;
     errors?: string
 }
+
+export interface IErrorMessage {
+    error: {
+        message?: string;
+    };
+}
