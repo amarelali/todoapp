@@ -2,61 +2,76 @@ import { ReactNode, useState } from "react";
 import Anchor from "./ui/Anchor";
 import Button from "./ui/Button";
 import Title from "./ui/Title";
-import { IAuthFormSignIn, IInputForm, IInputProps } from "../interfaces";
-import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
+import {
+  IAuthFormSignIn,
+  IErrorMessage,
+  IInputForm,
+  IInputPropsSignIn,
+} from "../interfaces";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signInSchema } from "../validation";
 import axiosInstance from "../config/axios.config";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import { AxiosError } from "axios";
+import Label from "./ui/label";
+import Input from "./ui/Input";
 
-interface IProps {
-  renderInput: (
-    formInput: IInputForm &
-      IInputProps & {
-        register: UseFormRegister<IAuthFormSignIn>;
-      }
-  ) => ReactNode;
-}
-const SignInForm = ({ renderInput }: IProps) => {
- 
+// ** Renders
+const renderInput = ({
+  label,
+  type,
+  placeholder,
+  inputClassName,
+  name,
+  register,
+  required = "",
+  errors,
+}: IInputForm & {
+  name: keyof IAuthFormSignIn;
+} & IInputPropsSignIn): ReactNode => {
+  return (
+    <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
+      <Label>{label}</Label>
+      <Input
+        className={inputClassName}
+        type={type}
+        placeholder={placeholder}
+        {...register(name, { required })}
+      />
+      {errors && <span style={{ color: "#E48700" }}>{errors}</span>}
+    </div>
+  );
+};
+
+const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<{
-    password: string;
-    identifier: string;
-  }>({
+  } = useForm<IAuthFormSignIn>({
     resolver: yupResolver(signInSchema),
   });
   const onSubmit: SubmitHandler<{
     password: string;
     identifier: string;
-  }> = async (data) => {
+  }> = async (formData) => {
     setIsLoading(true);
     try {
-      await axiosInstance
-        .post(`auth/local`, data)
-        .then((res) => {
-          localStorage.setItem("userdata", res.data);
-          toast.success("Welcome to TODO App!");
-          setTimeout(() => {
-            location.replace("/todo");
-          }, 1000);
-        })
-        .catch((error) => {
-          toast.error(error.message);
-        });
+      const { data, status } = await axiosInstance.post(`auth/local`, formData);
+      if (status === 200) {
+        localStorage.setItem("userdata", data);
+        toast.success("Welcome to TODO App!");
+        setTimeout(() => {
+          location.replace("/todo");
+        }, 1000);
+      }
     } catch (error) {
       setIsLoading(false);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error.message);
-      } else {
-        toast.error("Something went wrong ");
-      }
+      const errorObj = error as AxiosError<IErrorMessage>;
+      toast.error(errorObj.response?.data.error.message);
     } finally {
       setIsLoading(false);
     }

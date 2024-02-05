@@ -1,12 +1,12 @@
 import { useState } from "react";
 import firstimg from "../../assets/img/1.png";
 import secondimg from "../../assets/img/2.png";
- import SignUpForm from "../../components/SignUpForm";
- interface IProps {}
+import SignUpForm from "../../components/SignUpForm";
+import SignInForm from "../../components/SignInForm";
+interface IProps {}
 
 const Auth = ({}: IProps) => {
   const [registeredUser, setRegisteredUser] = useState(true);
-
 
   return (
     <div className="h-screen p-0 lg:flex relative">
@@ -52,12 +52,7 @@ const Auth = ({}: IProps) => {
             )}
           </div>
         </div>
-        {/* {registeredUser ? (
-          <SignInForm renderInput={renderInput} />
-        ) : (
-          <SignUpForm renderInput={renderInput} />
-        )} */}
-        <SignUpForm  />
+        {registeredUser ? <SignInForm /> : <SignUpForm />}
       </div>
     </div>
   );
