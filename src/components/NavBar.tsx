@@ -1,5 +1,5 @@
-interface IProps {}
-const NavBar = ({}: IProps) => {
+
+const NavBar = () => {
   return <></>;
 };
 export default NavBar;

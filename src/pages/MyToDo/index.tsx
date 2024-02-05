@@ -1,6 +1,6 @@
 interface IProps {
 }
-const MyToDo= ({}: IProps) => {
+const MyToDo= () => {
   return (
     <div>My todos</div>
   );

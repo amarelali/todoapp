@@ -3,9 +3,9 @@ import firstimg from "../../assets/img/1.png";
 import secondimg from "../../assets/img/2.png";
 import SignUpForm from "../../components/SignUpForm";
 import SignInForm from "../../components/SignInForm";
-interface IProps {}
 
-const Auth = ({}: IProps) => {
+
+const Auth = () => {
   const [registeredUser, setRegisteredUser] = useState(true);
 
   return (
