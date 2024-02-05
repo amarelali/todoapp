@@ -1,7 +1,7 @@
 import { UseFormRegister } from "react-hook-form";
 
 export interface IInputForm {
-    label: string, type: string, placeholder: string, inputClassName: string, name: "username" | "email" | "password" | "contact_number"
+    label: string, type: string, placeholder: string, inputClassName: string
 }
 export interface IAuthForm {
     email: string,
@@ -9,10 +9,19 @@ export interface IAuthForm {
     contact_number?: string;
     password: string;
 }
+export interface IAuthFormSignIn {
+    password: string;
+    identifier: string;
+}
 export interface IInputProps {
-    register: UseFormRegister<IAuthForm>;
     required?: string;
-    errors?: string
+    errors?: string;
+}
+export interface IInputPropsSignUp extends IInputProps {
+    register: UseFormRegister<IAuthForm>;
+}
+export interface IInputPropsSignIn extends IInputProps {
+    register: UseFormRegister<IAuthFormSignIn>;
 }
 
 export interface IErrorMessage {

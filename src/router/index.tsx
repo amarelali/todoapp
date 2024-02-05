@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import Layout from "../pages/Layout";
-import Auth from "../pages/Auth";
+import Auth from "../pages/Auth/Auth";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 const userdata = localStorage.getItem("userdata");
 

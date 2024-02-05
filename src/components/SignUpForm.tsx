@@ -1,9 +1,9 @@
 import { ReactNode, useState } from "react";
 import {
   IInputForm,
-  IInputProps,
   IAuthForm,
   IErrorMessage,
+  IInputPropsSignUp,
 } from "../interfaces";
 import Title from "./ui/Title";
 import Button from "./ui/Button";
@@ -14,12 +14,34 @@ import axiosInstance from "../config/axios.config";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { AxiosError } from "axios";
+import Label from "./ui/label";
+import Input from "./ui/Input";
 
-interface IProps {
-  renderInput: (formInput: IInputForm & IInputProps) => ReactNode;
-}
-
-const SignUpForm = ({ renderInput }: IProps) => {
+// ** Renders
+const renderInput = ({
+  label,
+  type,
+  placeholder,
+  inputClassName,
+  name,
+  register,
+  required = "",
+  errors,
+}: IInputForm & { name: keyof IAuthForm} & IInputPropsSignUp): ReactNode => {
+  return (
+    <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
+      <Label>{label}</Label>
+      <Input
+        className={inputClassName}
+        type={type}
+        placeholder={placeholder}
+        {...register(name, { required })}
+      />
+      {errors && <span style={{ color: "#E48700" }}>{errors}</span>}
+    </div>
+  );
+};
+const SignUpForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,

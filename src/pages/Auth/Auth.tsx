@@ -1,43 +1,13 @@
-import { ReactNode, useState } from "react";
-import Input from "../../components/ui/Input";
-import Label from "../../components/ui/label";
+import { useState } from "react";
 import firstimg from "../../assets/img/1.png";
 import secondimg from "../../assets/img/2.png";
-import {
-  IInputForm,
-  IInputProps,
-} from "../../interfaces";
  import SignUpForm from "../../components/SignUpForm";
  interface IProps {}
 
 const Auth = ({}: IProps) => {
   const [registeredUser, setRegisteredUser] = useState(true);
 
-  // ** Renders
-  const renderInput = ({
-    label,
-    type,
-    placeholder,
-    inputClassName,
-    name,
-    register,
-    required = "",
-    errors,
-  }: IInputForm &
-    IInputProps): ReactNode => {
-    return (
-      <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
-        <Label>{label}</Label>
-        <Input
-          className={inputClassName}
-          type={type}
-          placeholder={placeholder}
-          {...register(name, { required })}
-        />
-        {errors && <span style={{ color: "#E48700" }}>{errors}</span>}
-      </div>
-    );
-  };
+
   return (
     <div className="h-screen p-0 lg:flex relative">
       <div
@@ -87,7 +57,7 @@ const Auth = ({}: IProps) => {
         ) : (
           <SignUpForm renderInput={renderInput} />
         )} */}
-        <SignUpForm renderInput={renderInput} />
+        <SignUpForm  />
       </div>
     </div>
   );
