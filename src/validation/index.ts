@@ -10,3 +10,9 @@ export const signUpSchema = yup.object({
     contact_number : yup.string(),
     username:yup.string()
 }).required();
+
+export const addTodoSchema = yup.object({
+    title: yup.string().required("Title is required"),
+}).required();
+
+

@@ -61,14 +61,16 @@ const SignInForm = () => {
     setIsLoading(true);
     try {
       const { data, status } = await axiosInstance.post(`auth/local`, formData);
+      console.log(JSON.stringify(data));
       if (status === 200) {
-        localStorage.setItem("userdata", data);
+        localStorage.setItem("userdata", JSON.stringify(data));
         toast.success("Welcome to TODO App!");
         setTimeout(() => {
           location.replace("/todo");
         }, 1000);
       }
     } catch (error) {
+      console.log("error");
       setIsLoading(false);
       const errorObj = error as AxiosError<IErrorMessage>;
       toast.error(errorObj.response?.data.error.message);

@@ -6,6 +6,8 @@ import {
 import Layout from "../pages/Layout";
 import Auth from "../pages/Auth/Auth";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
+import NavBar from "../components/NavBar";
+import Home from "../pages/Home";
 const userdata = localStorage.getItem("userdata");
 
 const router = createBrowserRouter(
@@ -25,7 +27,8 @@ const router = createBrowserRouter(
           path="/todo"
           element={
             <ProtectedRoute isAllowed={userdata !== null} to="/">
-              <h4>Welcome !</h4>
+              <NavBar />
+              <Home />
             </ProtectedRoute>
           }
         />

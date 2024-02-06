@@ -2,12 +2,13 @@ import { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
+  className?:string;
   isLoading?: boolean;
 }
-const Button = ({ children, isLoading, ...rest }: IProps) => {
+const Button = ({className, children, isLoading, ...rest }: IProps) => {
   return (
     <button
-      className=" text-white text-base font-medium h-[54px] bg-[#E48700] rounded-[10px] w-full"
+      className={`text-white text-base font-medium h-[54px] bg-[#E48700] rounded-[10px] w-full ${className}`}
       style={{ boxShadow: "0px 4px 19px 0px rgba(119, 147, 65, 0.30)" }}
       {...rest}
     >
