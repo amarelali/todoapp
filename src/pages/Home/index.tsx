@@ -52,11 +52,11 @@ const Home = () => {
         toast.success(`new todo inserted successfully!`);
       }
     } catch (error) {
-      setIsLoading(false);
       const errorObj = error as AxiosError<IErrorMessage>;
       toast.error(errorObj.response?.data.error.message);
     } finally {
       setIsLoading(false);
+      setIsOpen(false);
     }
   };
   return (
