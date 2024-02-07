@@ -29,3 +29,10 @@ export interface IErrorMessage {
         message?: string;
     };
 }
+
+export interface IToDo {
+    id: number,
+    attributes: {
+        title: string
+    }
+}

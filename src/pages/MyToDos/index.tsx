@@ -5,11 +5,11 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { IErrorMessage } from "../../interfaces";
+import { IErrorMessage, IToDo } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const MyToDo = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<IToDo[]>([{id: 0,attributes: {title: "",},},]);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
