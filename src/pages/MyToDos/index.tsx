@@ -101,7 +101,7 @@ const MyToDo = () => {
   return (
     <>
       <div className="w-4/5 flex m-auto ">
-        <ul className="w-4/5">
+        <ul className="w-full sm:w-4/5">
           {data.map((e) => (
             <li
               className="flex justify-between"
