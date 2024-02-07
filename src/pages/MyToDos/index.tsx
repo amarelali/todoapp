@@ -6,12 +6,16 @@ import Input from "../../components/ui/Input";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { IErrorMessage } from "../../interfaces";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const MyToDo = () => {
   const [data, setData] = useState([]);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
-  const [toDoForEdit, setToDoForEdit] = useState({id:0,title:""});
+  const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
+    { id: 0, title: "" }
+  );
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
   //** edit to do storage */
   const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
@@ -35,18 +39,17 @@ const MyToDo = () => {
     };
 
     fetchData();
-  }, [toDoForEdit]);
+  }, [currentToDo]);
   // ** modal for edit todo
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setToDoForEdit({...toDoForEdit,title:e.target.value});
+    setCurrentToDo({ ...currentToDo, title: e.target.value });
   };
   const editToDo = async () => {
-    console.log(toDoForEdit);
-    const {title,id } = toDoForEdit;
+    const { title, id } = currentToDo;
     const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
     try {
       setIsLoading(true);
-      const {status} = await axiosInstance.put(
+      const { status } = await axiosInstance.put(
         `/to-dos/${id}`,
         {
           data: {
@@ -62,18 +65,39 @@ const MyToDo = () => {
       );
       if (status === 200) {
         toast.success(`todo edited successfully!`);
-       }
+      }
     } catch (error) {
-       setIsLoading(false);
+      setIsLoading(false);
       const errorObj = error as AxiosError<IErrorMessage>;
       toast.error(errorObj.response?.data.error.message);
     } finally {
       setEditModalIsOpen(false);
       setIsLoading(false);
     }
- 
   };
-
+  // ** modal for delete todo
+  const deleteToDo = async () => {
+    const { id } = currentToDo;
+    const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
+    try {
+      setIsLoading(true);
+      const { status } = await axiosInstance.delete(`/to-dos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if (status === 200) {
+        toast.success(`todo deleted successfully!`);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      const errorObj = error as AxiosError<IErrorMessage>;
+      toast.error(errorObj.response?.data.error.message);
+    } finally {
+      setDeleteModalIsOpen(false);
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       <div className="w-4/5 flex m-auto ">
@@ -99,7 +123,7 @@ const MyToDo = () => {
                   stroke="currentColor"
                   className="w-6 h-6 cursor-pointer"
                   onClick={() => {
-                    setToDoForEdit({...toDoForEdit,id:e.id});
+                    setCurrentToDo({ ...currentToDo, id: e.id });
                     setEditModalIsOpen(true);
                   }}
                 >
@@ -117,6 +141,7 @@ const MyToDo = () => {
                   stroke="currentColor"
                   className="w-6 h-6 cursor-pointer"
                   onClick={() => {
+                    setCurrentToDo({ ...currentToDo, id: e.id });
                     setDeleteModalIsOpen(true);
                   }}
                 >
@@ -137,15 +162,50 @@ const MyToDo = () => {
         isOpen={editModalIsOpen}
         onClose={() => setEditModalIsOpen(false)}
       >
-        <Input
-          className="my-2 w-full"
-          onChange={onChange}
-        />
+        <Input className="my-2 w-full" onChange={onChange} />
 
         <div className="flex space-x-2">
-          <Button onClick={editToDo} isLoading={isLoading}>Edit</Button>
+          <Button onClick={editToDo} isLoading={isLoading}>
+            Edit
+          </Button>
           <Button
             onClick={() => setEditModalIsOpen(false)}
+            className="bg-gray-400"
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+
+      {/*  modal for delete todo  */}
+      <Modal
+        title="Delete todo"
+        isOpen={deleteModalIsOpen}
+        onClose={() => setDeleteModalIsOpen(false)}
+        icon={
+          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <ExclamationTriangleIcon
+              className="h-6 w-6 text-red-600"
+              aria-hidden="true"
+            />
+          </div>
+        }
+      >
+        <p className="my-2">
+          Are you sure you want to delete this todo? your data will be
+          permanently removed. This action cannot be undone.
+        </p>
+        <div className="flex space-x-2">
+          <Button
+            onClick={() => {
+              deleteToDo();
+            }}
+            isLoading={isLoading}
+          >
+            Delete
+          </Button>
+          <Button
+            onClick={() => setDeleteModalIsOpen(false)}
             className="bg-gray-400"
           >
             Cancel

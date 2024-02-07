@@ -54,7 +54,7 @@ const Modal = ({
                  
                   <Dialog.Title
                     as="h3"
-                    className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2"
+                    className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-4"
                   >
                     {icon} {title}
                   </Dialog.Title>
