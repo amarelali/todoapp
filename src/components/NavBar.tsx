@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Disclosure, Menu, Transition  } from "@headlessui/react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [{ name: "My TODO", href: "#", current: true }];
@@ -7,11 +7,14 @@ const navigation = [{ name: "My TODO", href: "#", current: true }];
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-
+const logout = () => {
+  localStorage.clear();
+  location.reload();
+};
 export default function NavBar() {
   return (
     <Disclosure as="nav" className="bg-white-800">
-      {({ open }:{open:boolean}) => (
+      {({ open }: { open: boolean }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
@@ -90,16 +93,16 @@ export default function NavBar() {
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
-                        {({ active }:{active:boolean}) => (
-                          <a
-                            href="#"
+                        {({ active }: { active: boolean }) => (
+                          <span
+                            onClick={logout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
                             Sign out
-                          </a>
+                          </span>
                         )}
                       </Menu.Item>
                     </Menu.Items>
