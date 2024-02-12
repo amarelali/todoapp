@@ -34,7 +34,7 @@ const MyToDo = () => {
           },
         });
         if (status === 200) {
-          setData(data.data);
+          setData(data.to_dos);
         }
       } catch (error) {
         const errorObj = error as AxiosError<{ message: string }>;
@@ -111,14 +111,15 @@ const MyToDo = () => {
       setEditedData(false);
     }
   };
+
+  if(isLoading) return <span>Loading...</span>;
   return (
     <>
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
-          {isLoading ? (
-            <span>Loading...</span>
-          ) : data.length != 0 ? (
-            data.map((e) => (
+        { data.length !== 0 
+          ? (
+            data.map((e,i) => (
               <li
                 className="flex justify-between"
                 key={e.id}
@@ -129,7 +130,7 @@ const MyToDo = () => {
                   boxShadow: "2px 3px 15px -3px gray",
                 }}
               >
-                {e.id} - {e.attributes.title}
+                {++i} - {e.title}
                 <span className="flex space-x-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

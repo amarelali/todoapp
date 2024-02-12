@@ -32,7 +32,5 @@ export interface IErrorMessage {
 
 export interface IToDo {
     id: number,
-    attributes: {
-        title: string
-    }
+    title: string;
 }
