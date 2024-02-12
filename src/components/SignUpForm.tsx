@@ -27,7 +27,7 @@ const renderInput = ({
   register,
   required = "",
   errors,
-}: IInputForm & { name: keyof IAuthForm} & IInputPropsSignUp): ReactNode => {
+}: IInputForm & { name: keyof IAuthForm } & IInputPropsSignUp): ReactNode => {
   return (
     <div className="space-y-[16px] lg:space-y-[5px] 2xl:space-y-[16px]">
       <Label>{label}</Label>
@@ -119,10 +119,10 @@ const SignUpForm = () => {
             register,
             errors: errors.password?.message,
           })}
+          <Button onClick={handleSubmit(onSubmit)} isLoading={isLoading}>
+            Sign up
+          </Button>
         </div>
-        <Button onClick={handleSubmit(onSubmit)} isLoading={isLoading}>
-          Sign up
-        </Button>
       </form>
       <ToastContainer />
     </>
