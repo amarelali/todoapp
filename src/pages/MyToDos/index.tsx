@@ -28,7 +28,7 @@ const MyToDo = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const { data, status } = await axiosInstance.get("/to-dos", {
+        const { data, status } = await axiosInstance.get("/users/me?populate=to_dos", {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
@@ -90,7 +90,7 @@ const MyToDo = () => {
     const { id } = currentToDo;
     const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
     try {
-      setIsLoadingDelete(true);
+      setIsLoadingDelete(true); 
       const { status } = await axiosInstance.delete(`/to-dos/${id}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
