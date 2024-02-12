@@ -7,7 +7,7 @@ function classNames(...classes: string[]) {
 }
 const logout = () => {
   localStorage.clear();
-  location.reload();
+  location.replace('/');
 };
 export default function NavBar() {
   return (

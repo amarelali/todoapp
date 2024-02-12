@@ -73,7 +73,7 @@ const MyToDo = () => {
         toast.success(`todo edited successfully!`);
         setEditedData(true);
         setTimeout(()=>{
-          location.reload();
+          location.replace('/todo');
         },1000);      }
     } catch (error) {
       setIsLoading(false);
@@ -100,7 +100,7 @@ const MyToDo = () => {
         toast.success(`todo deleted successfully!`);
         setEditedData(true);
         setTimeout(()=>{
-          location.reload();
+          location.replace('/todo');
         },1000);      }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorMessage>;

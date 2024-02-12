@@ -51,7 +51,7 @@ const Home = () => {
       if (status === 200) {
         toast.success(`new todo inserted successfully!`);
         setTimeout(()=>{
-          location.reload();
+          location.replace('/todo');
         },1000);
       }
     } catch (error) {
