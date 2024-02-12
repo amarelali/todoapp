@@ -9,7 +9,7 @@ import { IErrorMessage, IToDo } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const MyToDo = () => {
-  const [data, setData] = useState<IToDo[]>([{id: 0,attributes: {title: "",},},]);
+  const [data, setData] = useState<IToDo[]>([]);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
@@ -23,18 +23,20 @@ const MyToDo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const { data, status } = await axiosInstance.get("/to-dos", {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         });
         if (status === 200) {
-          console.log(data.data);
           setData(data.data);
         }
       } catch (error) {
-        console.log(error);
-      } finally {
+        const errorObj = error as AxiosError<{message: string}>;
+        toast.error(errorObj.message);
+      }finally{
+        setIsLoading(false);
       }
     };
 
@@ -102,7 +104,7 @@ const MyToDo = () => {
     <>
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
-          {data.map((e) => (
+          {isLoading ? (<span>Loading...</span>): data.length != 0 ? (data.map((e) => (
             <li
               className="flex justify-between"
               key={e.id}
@@ -153,7 +155,7 @@ const MyToDo = () => {
                 </svg>
               </span>
             </li>
-          ))}
+          ))) : (<div>No TODOs created yet</div>)}
         </ul>
       </div>
       {/* modal for edit todo */}
