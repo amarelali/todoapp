@@ -61,7 +61,6 @@ const SignUpForm = () => {
       );
       if (status === 200) {
         localStorage.setItem("userdata", JSON.stringify(data));
-        console.log(data);
         toast.success("Welcome to TODO App!");
         setTimeout(() => {
           location.replace("/todo");
