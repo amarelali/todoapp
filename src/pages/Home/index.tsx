@@ -50,6 +50,7 @@ const Home = () => {
 
       if (status === 200) {
         toast.success(`new todo inserted successfully!`);
+        location.reload();
       }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorMessage>;
