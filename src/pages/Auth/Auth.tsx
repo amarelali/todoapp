@@ -26,7 +26,7 @@ const Auth = () => {
         <div className="flex justify-between">
           <div className="text-base lg:text-[20px] font-normal text-nowrap">
             Welcome to
-            <span className="text-[#E48700] font-semibold">&nbsp; LOREM</span>
+            <span className="text-[#E48700] font-semibold">&nbsp; TODO</span>
           </div>
           <div className="flex">
             {registeredUser ? (
