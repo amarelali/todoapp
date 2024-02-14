@@ -21,7 +21,7 @@ const Auth = () => {
       </div>
       <div
         style={{ backgroundColor: "white" }}
-        className="rounded-[40px] w-[326px] px-[27px] pt-11 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 lg:w-[539px] 2xl:h-[741px]"
+        className="rounded-[40px] w-[326px] px-[27px] pt-11 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 lg:w-[539px]"
       >
         <div className="flex justify-between">
           <div className="text-base lg:text-[20px] font-normal text-nowrap">
