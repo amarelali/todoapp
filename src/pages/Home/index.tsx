@@ -50,7 +50,7 @@ const Home = () => {
 
       if (status === 200) {
         toast.success(`new todo inserted successfully!`, {
-          position: "top-center",
+          position: "bottom-center",
         });
         setTimeout(()=>{
           location.replace('/todo');

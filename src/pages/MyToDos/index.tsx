@@ -38,7 +38,7 @@ const MyToDo = () => {
       } catch (error) {
         const errorObj = error as AxiosError<{ message: string }>;
         toast.error(errorObj.message, {
-          position: "top-center",
+          position: "bottom-center",
         });
       } finally {
         setIsLoading(false);
@@ -72,7 +72,7 @@ const MyToDo = () => {
       );
       if (status === 200) {
         toast.success(`todo edited successfully!`, {
-          position: "top-center",
+          position: "bottom-center",
         });
         setEditedData(true);
         setTimeout(()=>{
@@ -103,7 +103,7 @@ const MyToDo = () => {
       });
       if (status === 200) {
         toast.success(`todo deleted successfully!`, {
-          position: "top-center",
+          position: "bottom-center",
         });
         setEditedData(true);
         setTimeout(()=>{
