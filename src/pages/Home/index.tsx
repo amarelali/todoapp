@@ -34,7 +34,7 @@ const Home = () => {
       setIsLoading(true);
 
       const {status} = await axiosInstance.post(
-        "/to-dos",
+        "/to_dos",
         {
           data: {
             ...formData,
