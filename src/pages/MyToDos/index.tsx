@@ -56,7 +56,7 @@ const MyToDo = () => {
     try {
       setIsLoadingEdit(true);
       const { status } = await axiosInstance.put(
-        `/to-dos/${id}`,
+        `/to_dos/${id}`,
         {
           data: {
             title: title,
@@ -91,7 +91,7 @@ const MyToDo = () => {
     const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
     try {
       setIsLoadingDelete(true); 
-      const { status } = await axiosInstance.delete(`/to-dos/${id}`, {
+      const { status } = await axiosInstance.delete(`/to_dos/${id}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
