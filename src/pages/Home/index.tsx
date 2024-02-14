@@ -49,14 +49,18 @@ const Home = () => {
       );
 
       if (status === 200) {
-        toast.success(`new todo inserted successfully!`);
+        toast.success(`new todo inserted successfully!`, {
+          position: "top-center",
+        });
         setTimeout(()=>{
           location.replace('/todo');
         },1000);
       }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message);
+      toast.error(errorObj.response?.data.error.message, {
+        position: "top-center",
+      });
     } finally {
       setIsLoading(false);
       setIsOpen(false);

@@ -61,7 +61,9 @@ const SignUpForm = () => {
       );
       if (status === 200) {
         localStorage.setItem("userdata", JSON.stringify(data));
-        toast.success("Welcome to TODO App!");
+        toast.success("Welcome to TODO App!", {
+          position: "top-center",
+        });
         setTimeout(() => {
           location.replace("/todo");
         }, 1000);
@@ -69,7 +71,9 @@ const SignUpForm = () => {
     } catch (error) {
       setIsLoading(false);
       const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message);
+      toast.error(errorObj.response?.data.error.message, {
+        position: "top-center",
+      });
     } finally {
       setIsLoading(false);
     }

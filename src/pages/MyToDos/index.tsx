@@ -23,8 +23,7 @@ const MyToDo = () => {
 
   //** edit to do storage */
   const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
-
-  useEffect(() => {
+   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -38,7 +37,9 @@ const MyToDo = () => {
         }
       } catch (error) {
         const errorObj = error as AxiosError<{ message: string }>;
-        toast.error(errorObj.message);
+        toast.error(errorObj.message, {
+          position: "top-center",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -70,7 +71,9 @@ const MyToDo = () => {
         }
       );
       if (status === 200) {
-        toast.success(`todo edited successfully!`);
+        toast.success(`todo edited successfully!`, {
+          position: "top-center",
+        });
         setEditedData(true);
         setTimeout(()=>{
           location.replace('/todo');
@@ -78,7 +81,9 @@ const MyToDo = () => {
     } catch (error) {
       setIsLoading(false);
       const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message);
+      toast.error(errorObj.response?.data.error.message, {
+        position: "top-center",
+      });
     } finally {
       setEditModalIsOpen(false);
       setIsLoadingEdit(false);
@@ -97,14 +102,18 @@ const MyToDo = () => {
         },
       });
       if (status === 200) {
-        toast.success(`todo deleted successfully!`);
+        toast.success(`todo deleted successfully!`, {
+          position: "top-center",
+        });
         setEditedData(true);
         setTimeout(()=>{
           location.replace('/todo');
         },1000);      }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message);
+      toast.error(errorObj.response?.data.error.message, {
+        position: "top-center",
+      });
     } finally {
       setDeleteModalIsOpen(false);
       setIsLoadingDelete(false);
