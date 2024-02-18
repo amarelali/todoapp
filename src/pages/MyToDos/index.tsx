@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axiosInstance from "../../config/axios.config";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { IErrorMessage, IToDo } from "../../interfaces";
+import { IErrorMessage } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 
 const MyToDo = () => {
-  const [mydata, setData] = useState<IToDo[]>([]);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
@@ -108,7 +107,7 @@ const MyToDo = () => {
 
   if(isLoading) return <span>Loading...</span>;
   if(error) return <span>{error.message}</span>;
-  
+
   return (
     <>
       <div className="w-4/5 flex m-auto ">
