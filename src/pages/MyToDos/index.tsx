@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { IErrorMessage } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
+import useCustomHook from "../../hooks/useCustomHook";
 
 const MyToDo = () => {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -23,19 +23,15 @@ const MyToDo = () => {
   //** edit to do storage */
   const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["repoData",`${queryVersion}`],
-    queryFn: async () => {
-
-        const { data } = await axiosInstance.get("/users/me?populate=to_dos", {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        });
- 
-      return data;
-    }
-  })
+  const { isLoading, error, data } = useCustomHook({
+    queryKey: ["repoData", `${queryVersion}`],
+    url: "/users/me?populate=to_dos",
+    config: {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    },
+  });
 
   // ** modal for edit todo
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,8 +60,8 @@ const MyToDo = () => {
         toast.success(`todo edited successfully!`, {
           position: "bottom-center",
         });
-        setQueryVersion( prev => prev +1 );
-        }
+        setQueryVersion((prev) => prev + 1);
+      }
     } catch (error) {
       setIsLoadingEdit(false);
       const errorObj = error as AxiosError<IErrorMessage>;
@@ -82,7 +78,7 @@ const MyToDo = () => {
     const { id } = currentToDo;
     const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
     try {
-      setIsLoadingDelete(true); 
+      setIsLoadingDelete(true);
       const { status } = await axiosInstance.delete(`/to-dos/${id}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -92,7 +88,7 @@ const MyToDo = () => {
         toast.success(`todo deleted successfully!`, {
           position: "bottom-center",
         });
-        setQueryVersion( prev => prev +1 );
+        setQueryVersion((prev) => prev + 1);
       }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorMessage>;
@@ -105,16 +101,15 @@ const MyToDo = () => {
     }
   };
 
-  if(isLoading) return <span>Loading...</span>;
-  if(error) return <span>{error.message}</span>;
+  if (isLoading) return <span>Loading...</span>;
+  if (error) return <span>{error.message}</span>;
 
   return (
     <>
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
-        { data.to_dos.length !== 0 
-          ? (
-            data.to_dos.map((e,i) => (
+          {data.to_dos.length !== 0 ? (
+            data.to_dos.map((e, i) => (
               <li
                 className="flex justify-between"
                 key={e.id}
