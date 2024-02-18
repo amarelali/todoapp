@@ -7,46 +7,37 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { IErrorMessage, IToDo } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
 
 const MyToDo = () => {
-  const [data, setData] = useState<IToDo[]>([]);
+  const [mydata, setData] = useState<IToDo[]>([]);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
   );
-  const [editedData, setEditedData] = useState(false);
+  const [queryVersion, setQueryVersion] = useState(1);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
   //** edit to do storage */
   const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
-   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const { data, status } = await axiosInstance.get("/users/me?populate=to_dos", {
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["repoData",`${queryVersion}`],
+    queryFn: async () => {
+
+        const { data } = await axiosInstance.get("/users/me?populate=to_dos", {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         });
-        if (status === 200) {
-          setData(data.to_dos);
-        }
-      } catch (error) {
-        const errorObj = error as AxiosError<{ message: string }>;
-        toast.error(errorObj.message, {
-          position: "bottom-center",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
+ 
+      return data;
+    }
+  })
 
-    fetchData();
-  }, [editedData]);
   // ** modal for edit todo
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentToDo({ ...currentToDo, title: e.target.value });
@@ -74,12 +65,10 @@ const MyToDo = () => {
         toast.success(`todo edited successfully!`, {
           position: "bottom-center",
         });
-        setEditedData(true);
-        setTimeout(()=>{
-          location.replace('/todo');
-        },1000);      }
+        setQueryVersion( prev => prev +1 );
+        }
     } catch (error) {
-      setIsLoading(false);
+      setIsLoadingEdit(false);
       const errorObj = error as AxiosError<IErrorMessage>;
       toast.error(errorObj.response?.data.error.message, {
         position: "top-center",
@@ -87,7 +76,6 @@ const MyToDo = () => {
     } finally {
       setEditModalIsOpen(false);
       setIsLoadingEdit(false);
-      setEditedData(false);
     }
   };
   // ** modal for delete todo
@@ -105,10 +93,8 @@ const MyToDo = () => {
         toast.success(`todo deleted successfully!`, {
           position: "bottom-center",
         });
-        setEditedData(true);
-        setTimeout(()=>{
-          location.replace('/todo');
-        },1000);      }
+        setQueryVersion( prev => prev +1 );
+      }
     } catch (error) {
       const errorObj = error as AxiosError<IErrorMessage>;
       toast.error(errorObj.response?.data.error.message, {
@@ -117,18 +103,19 @@ const MyToDo = () => {
     } finally {
       setDeleteModalIsOpen(false);
       setIsLoadingDelete(false);
-      setEditedData(false);
     }
   };
 
   if(isLoading) return <span>Loading...</span>;
+  if(error) return <span>{error.message}</span>;
+  
   return (
     <>
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
-        { data.length !== 0 
+        { data.to_dos.length !== 0 
           ? (
-            data.map((e,i) => (
+            data.to_dos.map((e,i) => (
               <li
                 className="flex justify-between"
                 key={e.id}
