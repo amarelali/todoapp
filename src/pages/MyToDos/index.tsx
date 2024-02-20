@@ -9,7 +9,7 @@ import { IErrorMessage } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import useCustomHook from "../../hooks/useCustomHook";
 
-const MyToDo = () => {
+const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
@@ -24,7 +24,7 @@ const MyToDo = () => {
   const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
 
   const { isLoading, error, data } = useCustomHook({
-    queryKey: ["repoData", `${queryVersion}`],
+    queryKey: ["repoData", `${queryVersion}-${dataUpdated}`],
     url: "/users/me?populate=to_dos",
     config: {
       headers: {

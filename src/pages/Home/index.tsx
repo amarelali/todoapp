@@ -3,16 +3,16 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import Input from "../../components/ui/Input";
 import axiosInstance from "../../config/axios.config";
-import { ToastContainer, toast } from "react-toastify";
-import { AxiosError } from "axios";
-import { IErrorMessage } from "../../interfaces";
+import { ToastContainer } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addTodoSchema } from "../../validation";
 import MyToDo from "../MyToDos";
+import { useMutation } from "@tanstack/react-query";
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [queryVersion, setQueryVersion] = useState(1);
   const {
     register,
     handleSubmit,
@@ -20,7 +20,35 @@ const Home = () => {
   } = useForm<{ title: string }>({
     resolver: yupResolver(addTodoSchema),
   });
+  const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
 
+  const mutation  =  useMutation({
+    mutationKey : ["mutation"],
+    mutationFn: async (formData : {title:string}) => {
+      
+      const {title} = formData;
+
+      const { data } = await axiosInstance.post("/to-dos", {
+        data: {
+          title ,
+          users: [user.id],
+        }
+      },{
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      return data;
+    },
+    onMutate:()=>{
+      setIsLoading(true); 
+    },
+    onSuccess:()=>{
+      setIsLoading(false); 
+      setIsOpen(false);
+      setQueryVersion(prev => prev+1);
+    }
+  });
   function closeModal() {
     setIsOpen(false);
   }
@@ -28,43 +56,8 @@ const Home = () => {
   function openModal() {
     setIsOpen(true);
   }
-  const addToDo: SubmitHandler<{ title: string }> = async (formData) => {
-    const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
-    try {
-      setIsLoading(true);
-
-      const {status} = await axiosInstance.post(
-        "/to-dos",
-        {
-          data: {
-            ...formData,
-            users: [user.id],
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-
-      if (status === 200) {
-        toast.success(`new todo inserted successfully!`, {
-          position: "bottom-center",
-        });
-        setTimeout(()=>{
-          location.replace('/todo');
-        },1000);
-      }
-    } catch (error) {
-      const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message, {
-        position: "top-center",
-      });
-    } finally {
-      setIsLoading(false);
-      setIsOpen(false);
-    }
+  const addToDo: SubmitHandler<{ title: string }> = (formData) => {
+     mutation.mutate(formData);   
   };
   return (
     <>
@@ -138,9 +131,8 @@ const Home = () => {
           </div>
         </Dialog>
       </Transition>
-      <MyToDo />
+      <MyToDo dataUpdated={queryVersion}/>
       <ToastContainer />
-
     </>
   );
 };
