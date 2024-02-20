@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import axiosInstance from "../../config/axios.config";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
@@ -10,7 +10,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import useCustomHook from "../../hooks/useCustomHook";
 import { useMutation } from "@tanstack/react-query";
 
-const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
+const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
@@ -20,26 +20,29 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isLoadingEdit, setIsLoadingEdit] = useState(false);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-
+  const [sortBy, setSortBy] = useState("DESC");
+  const [pageSize, setPageSize] = useState("10");
   //** edit to do storage */
-  const { jwt ,user} = JSON.parse(localStorage.getItem("userdata") || "");
+  const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
 
   const { isLoading, error, data } = useCustomHook({
-    queryKey: ["repoData", `${queryVersion}-${dataUpdated}`],
-    url: "/users/me?populate=to_dos",
+    queryKey: [
+      "repoData",
+      `${queryVersion}-${dataUpdated}-${sortBy}-${pageSize}`,
+    ],
+    url: `/to-dos?sort=createdAt:${sortBy}&pagination[page]=1&pagination[pageSize]=${pageSize}`,
     config: {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
     },
   });
-
   // ** modal for edit todo
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentToDo({ ...currentToDo, title: e.target.value });
   };
-  const mutationEdit  =  useMutation({
-    mutationKey : ["editMutation"],
+  const mutationEdit = useMutation({
+    mutationKey: ["editMutation"],
     mutationFn: async () => {
       const { title, id } = currentToDo;
       const { data } = await axiosInstance.put(
@@ -58,38 +61,38 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
       );
       return data;
     },
-    onMutate:()=>{
-      setIsLoadingEdit(true);  
+    onMutate: () => {
+      setIsLoadingEdit(true);
     },
-    onSuccess:()=>{
+    onSuccess: () => {
       setEditModalIsOpen(false);
       setIsLoadingEdit(false);
-      setQueryVersion(prev => prev+1);
+      setQueryVersion((prev) => prev + 1);
       toast.success(`todo edited successfully!`, {
         position: "bottom-center",
       });
     },
-    onError:(error)=>{
-      if(error as AxiosError<IErrorMessage>){
+    onError: (error) => {
+      if (error as AxiosError<IErrorMessage>) {
         const errorObj = error as AxiosError<IErrorMessage>;
         toast.error(errorObj.response?.data.error.message, {
           position: "top-center",
         });
-      }else{
+      } else {
         toast.error(error.message, {
           position: "top-center",
         });
       }
       setIsLoadingEdit(false);
       setEditModalIsOpen(false);
-    }
+    },
   });
   const editToDo = async () => {
     mutationEdit.mutate();
   };
   // ** modal for delete todo
-  const mutationDelete  =  useMutation({
-    mutationKey : ["deleteMutation"],
+  const mutationDelete = useMutation({
+    mutationKey: ["deleteMutation"],
     mutationFn: async () => {
       const { id } = currentToDo;
       const { data } = await axiosInstance.delete(`/to-dos/${id}`, {
@@ -99,45 +102,76 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
       });
       return data;
     },
-    onMutate:()=>{
-      setIsLoadingDelete(true);  
+    onMutate: () => {
+      setIsLoadingDelete(true);
     },
-    onSuccess:()=>{
+    onSuccess: () => {
       setDeleteModalIsOpen(false);
       setIsLoadingDelete(false);
-      setQueryVersion(prev => prev+1);
+      setQueryVersion((prev) => prev + 1);
       toast.success(`todo deleted successfully!`, {
         position: "bottom-center",
       });
     },
-    onError:(error)=>{
-      if(error as AxiosError<IErrorMessage>){
+    onError: (error) => {
+      if (error as AxiosError<IErrorMessage>) {
         const errorObj = error as AxiosError<IErrorMessage>;
         toast.error(errorObj.response?.data.error.message, {
           position: "top-center",
         });
-      }else{
+      } else {
         toast.error(error.message, {
           position: "top-center",
         });
       }
       setIsLoadingDelete(false);
       setDeleteModalIsOpen(false);
-    }
+    },
   });
-  const deleteToDo = ()=>{
+  const deleteToDo = () => {
     mutationDelete.mutate();
-  }
+  };
+  //** sort by
+  const onChangeSortBy = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(event.target.value);
+  };
+
+  //** Page size
+  const onChangePageSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPageSize(event.target.value);
+  };
 
   if (isLoading) return <span>Loading...</span>;
   if (error) return <span>{error.message}</span>;
 
   return (
     <>
+      <div className="space-x-3 flex justify-end m-auto w-4/5 mt-3">
+        <select
+          className="border-2 border-[#E48700] focus-visible:outline-[0px] rounded-md p-1"
+          value={pageSize}
+          onChange={onChangePageSize}
+        >
+          <option disabled>Page size</option>
+          <option value={10}>10</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </select>
+        <select
+          className="border-2 border-[#E48700] focus-visible:outline-[0px] rounded-md p-1"
+          value={sortBy}
+          onChange={onChangeSortBy}
+        >
+          <option disabled>Sort by</option>
+          <option value="ASC">Oldest</option>
+          <option value="DESC">Latest</option>
+        </select>
+      </div>
+
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
-          {data.to_dos.length !== 0 ? (
-            data.to_dos.map((e, i) => (
+          {data.data.length !== 0 ? (
+            data.data.map((e, i) => (
               <li
                 className="flex justify-between"
                 key={e.id}
@@ -148,7 +182,7 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
                   boxShadow: "2px 3px 15px -3px gray",
                 }}
               >
-                {++i} - {e.title}
+                {++i} - {e.attributes.title}
                 <span className="flex space-x-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
