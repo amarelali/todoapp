@@ -8,6 +8,7 @@ import { AxiosError } from "axios";
 import { IErrorMessage } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import useCustomHook from "../../hooks/useCustomHook";
+import { useMutation } from "@tanstack/react-query";
 
 const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -21,7 +22,7 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
   //** edit to do storage */
-  const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
+  const { jwt ,user} = JSON.parse(localStorage.getItem("userdata") || "");
 
   const { isLoading, error, data } = useCustomHook({
     queryKey: ["repoData", `${queryVersion}-${dataUpdated}`],
@@ -37,12 +38,11 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentToDo({ ...currentToDo, title: e.target.value });
   };
-  const editToDo = async () => {
-    const { title, id } = currentToDo;
-    const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
-    try {
-      setIsLoadingEdit(true);
-      const { status } = await axiosInstance.put(
+  const mutationEdit  =  useMutation({
+    mutationKey : ["editMutation"],
+    mutationFn: async () => {
+      const { title, id } = currentToDo;
+      const { data } = await axiosInstance.put(
         `/to-dos/${id}`,
         {
           data: {
@@ -56,50 +56,61 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
           },
         }
       );
-      if (status === 200) {
-        toast.success(`todo edited successfully!`, {
-          position: "bottom-center",
-        });
-        setQueryVersion((prev) => prev + 1);
-      }
-    } catch (error) {
-      setIsLoadingEdit(false);
-      const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message, {
-        position: "top-center",
-      });
-    } finally {
+      return data;
+    },
+    onMutate:()=>{
+      setIsLoadingEdit(true);  
+    },
+    onSuccess:()=>{
       setEditModalIsOpen(false);
       setIsLoadingEdit(false);
+      setQueryVersion(prev => prev+1);
+      toast.success(`todo edited successfully!`, {
+        position: "bottom-center",
+      });
+    },
+    onError:(error :AxiosError<IErrorMessage>)=>{
+      setIsLoadingEdit(false);
+       toast.error(error.response?.data.error.message, {
+        position: "top-center",
+      });
     }
+  });
+  const editToDo = async () => {
+    mutationEdit.mutate();
   };
   // ** modal for delete todo
-  const deleteToDo = async () => {
-    const { id } = currentToDo;
-    const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
-    try {
-      setIsLoadingDelete(true);
-      const { status } = await axiosInstance.delete(`/to-dos/${id}`, {
+  const mutationDelete  =  useMutation({
+    mutationKey : ["deleteMutation"],
+    mutationFn: async () => {
+      const { id } = currentToDo;
+      const { data } = await axiosInstance.delete(`/to-dos/${id}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      if (status === 200) {
-        toast.success(`todo deleted successfully!`, {
-          position: "bottom-center",
-        });
-        setQueryVersion((prev) => prev + 1);
-      }
-    } catch (error) {
-      const errorObj = error as AxiosError<IErrorMessage>;
-      toast.error(errorObj.response?.data.error.message, {
-        position: "top-center",
-      });
-    } finally {
+      return data;
+    },
+    onMutate:()=>{
+      setIsLoadingDelete(true);  
+    },
+    onSuccess:()=>{
       setDeleteModalIsOpen(false);
       setIsLoadingDelete(false);
+      setQueryVersion(prev => prev+1);
+      toast.success(`todo deleted successfully!`, {
+        position: "bottom-center",
+      });
+    },
+    onError:(error :AxiosError<IErrorMessage>)=>{
+       toast.error(error.response?.data.error.message, {
+        position: "top-center",
+      });
     }
-  };
+  });
+  const deleteToDo = ()=>{
+    mutationDelete.mutate();
+  }
 
   if (isLoading) return <span>Loading...</span>;
   if (error) return <span>{error.message}</span>;
