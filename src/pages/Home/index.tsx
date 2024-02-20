@@ -3,12 +3,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import Input from "../../components/ui/Input";
 import axiosInstance from "../../config/axios.config";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addTodoSchema } from "../../validation";
 import MyToDo from "../MyToDos";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { IErrorMessage } from "../../interfaces";
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +30,7 @@ const Home = () => {
       
       const {title} = formData;
 
-      const { data } = await axiosInstance.post("/to-dos", {
+      const { data } = await axiosInstance.post("/to-doss", {
         data: {
           title ,
           users: [user.id],
@@ -47,6 +49,23 @@ const Home = () => {
       setIsLoading(false); 
       setIsOpen(false);
       setQueryVersion(prev => prev+1);
+      toast.success(`todo added successfully!`, {
+        position: "bottom-center",
+      });
+    },
+    onError:(error)=>{
+      if(error as AxiosError<IErrorMessage>){
+        const errorObj = error as AxiosError<IErrorMessage>;
+        toast.error(errorObj.response?.data.error.message, {
+          position: "top-center",
+        });
+      }else{
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      }
+      setIsLoading(false);
+      setIsOpen(false);
     }
   });
   function closeModal() {
