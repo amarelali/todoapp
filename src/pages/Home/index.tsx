@@ -30,7 +30,7 @@ const Home = () => {
       
       const {title} = formData;
 
-      const { data } = await axiosInstance.post("/to-doss", {
+      const { data } = await axiosInstance.post("/to-dos", {
         data: {
           title ,
           users: [user.id],
