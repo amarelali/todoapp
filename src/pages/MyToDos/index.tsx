@@ -69,11 +69,19 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
         position: "bottom-center",
       });
     },
-    onError:(error :AxiosError<IErrorMessage>)=>{
+    onError:(error)=>{
+      if(error as AxiosError<IErrorMessage>){
+        const errorObj = error as AxiosError<IErrorMessage>;
+        toast.error(errorObj.response?.data.error.message, {
+          position: "top-center",
+        });
+      }else{
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      }
       setIsLoadingEdit(false);
-       toast.error(error.response?.data.error.message, {
-        position: "top-center",
-      });
+      setEditModalIsOpen(false);
     }
   });
   const editToDo = async () => {
@@ -102,10 +110,19 @@ const MyToDo = ({dataUpdated}:{dataUpdated:number}) => {
         position: "bottom-center",
       });
     },
-    onError:(error :AxiosError<IErrorMessage>)=>{
-       toast.error(error.response?.data.error.message, {
-        position: "top-center",
-      });
+    onError:(error)=>{
+      if(error as AxiosError<IErrorMessage>){
+        const errorObj = error as AxiosError<IErrorMessage>;
+        toast.error(errorObj.response?.data.error.message, {
+          position: "top-center",
+        });
+      }else{
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      }
+      setIsLoadingDelete(false);
+      setDeleteModalIsOpen(false);
     }
   });
   const deleteToDo = ()=>{
