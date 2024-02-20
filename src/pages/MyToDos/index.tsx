@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 import axiosInstance from "../../config/axios.config";
 import Modal from "../../components/ui/Modal";
 import Button from "../../components/ui/Button";
