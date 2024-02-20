@@ -5,7 +5,7 @@ import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { IErrorMessage } from "../../interfaces";
+import { IErrorMessage, IToDo } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import useCustomHook from "../../hooks/useCustomHook";
 import { useMutation } from "@tanstack/react-query";
@@ -171,7 +171,7 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
           {data.data.length !== 0 ? (
-            data.data.map((e, i) => (
+            data.data.map((e:IToDo, i:number) => (
               <li
                 className="flex justify-between"
                 key={e.id}
