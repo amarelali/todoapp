@@ -9,6 +9,7 @@ import { IErrorMessage, IToDo } from "../../interfaces";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import useCustomHook from "../../hooks/useCustomHook";
 import { useMutation } from "@tanstack/react-query";
+import Pagination from "../../components/Pagination";
 
 const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -22,15 +23,18 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [sortBy, setSortBy] = useState("DESC");
   const [pageSize, setPageSize] = useState("10");
+  //pagination data
+  const [page, setPage] = useState<number>(1);
+
   //** edit to do storage */
   const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
 
   const { isLoading, error, data } = useCustomHook({
     queryKey: [
       "repoData",
-      `${queryVersion}-${dataUpdated}-${sortBy}-${pageSize}`,
+      `${queryVersion}-${dataUpdated}-${sortBy}-${pageSize}-${page}`,
     ],
-    url: `/to-dos?sort=createdAt:${sortBy}&pagination[page]=1&pagination[pageSize]=${pageSize}`,
+    url: `/to-dos?sort=createdAt:${sortBy}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
     config: {
       headers: {
         Authorization: `Bearer ${jwt}`,
@@ -143,7 +147,6 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
 
   if (isLoading) return <span>Loading...</span>;
   if (error) return <span>{error.message}</span>;
-
   return (
     <>
       <div className="space-x-3 flex justify-end m-auto w-4/5 mt-3">
@@ -171,7 +174,7 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
           {data.data.length !== 0 ? (
-            data.data.map((e:IToDo, i:number) => (
+            data.data.map((e: IToDo) => (
               <li
                 className="flex justify-between"
                 key={e.id}
@@ -182,7 +185,12 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
                   boxShadow: "2px 3px 15px -3px gray",
                 }}
               >
-                {++i} - {e.attributes.title}
+                <div className="flex gap-2 items-center">
+                  <span className="w-8 h-8 rounded-full bg-[#e48700] text-white text-sm flex justify-center items-center">
+                    <span>{e.id}</span>
+                  </span>
+                  {e.attributes.title}
+                </div>
                 <span className="flex space-x-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -228,6 +236,13 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
           )}
         </ul>
       </div>
+      <Pagination
+        page={page}
+        pageCount={data.meta.pagination.pageCount}
+        onClickPrev={() => setPage((prev) => prev - 1)}
+        onClickNext={() => setPage((prev) => prev + 1)}
+      />
+
       {/* modal for edit todo */}
       <Modal
         title="Edit todo title"
