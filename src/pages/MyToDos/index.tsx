@@ -200,7 +200,7 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
                     stroke="currentColor"
                     className="w-6 h-6 cursor-pointer"
                     onClick={() => {
-                      setCurrentToDo({ ...currentToDo, id: e.id });
+                      setCurrentToDo({title: e.attributes.title, id: e.id });
                       setEditModalIsOpen(true);
                     }}
                   >
@@ -249,7 +249,7 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
         isOpen={editModalIsOpen}
         onClose={() => setEditModalIsOpen(false)}
       >
-        <Input className="my-2 w-full" onChange={onChange} />
+        <Input className="my-2 w-full" onChange={onChange} value={currentToDo.title} />
 
         <div className="flex space-x-2">
           <Button onClick={editToDo} isLoading={isLoadingEdit}>
