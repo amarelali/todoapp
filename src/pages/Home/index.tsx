@@ -18,6 +18,7 @@ const Home = () => {
   const {
     register,
     handleSubmit,
+    setValue ,
     formState: { errors },
   } = useForm<{ title: string }>({
     resolver: yupResolver(addTodoSchema),
@@ -48,6 +49,7 @@ const Home = () => {
     onSuccess:()=>{
       setIsLoading(false); 
       setIsOpen(false);
+      setValue('title', '')
       setQueryVersion(prev => prev+1);
       toast.success(`todo added successfully!`, {
         position: "bottom-center",
@@ -70,6 +72,7 @@ const Home = () => {
   });
   function closeModal() {
     setIsOpen(false);
+    setValue('title', '')
   }
 
   function openModal() {
