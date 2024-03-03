@@ -14,6 +14,7 @@ const Pagination = ({ page =1 , pageCount,onClickPrev,onClickNext }: IProps) => 
         className="p-2 bg-[#E48700] disabled:bg-[#e4870070] text-white rounded-l-lg rounded-r-none flex gap-2 w-[70px] h-fit"
         onClick={onClickPrev}
         disabled={page === 1 }
+        fullWidth={false}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +36,8 @@ const Pagination = ({ page =1 , pageCount,onClickPrev,onClickNext }: IProps) => 
         className={`p-2 bg-[#E48700] disabled:bg-[#e4870070] text-white rounded-r-lg rounded-l-none flex gap-2 w-[70px] h-fit `}
         onClick={onClickNext}
         disabled={page === pageCount}
+        fullWidth={false}
+
       >
         Next
         <svg
