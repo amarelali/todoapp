@@ -35,7 +35,7 @@ const Pagination = ({ page =1 , pageCount,onClickPrev,onClickNext }: IProps) => 
       <Button
         className={`p-2 bg-[#E48700] disabled:bg-[#e4870070] text-white rounded-r-lg rounded-l-none flex gap-2 w-[70px] h-fit `}
         onClick={onClickNext}
-        disabled={page === pageCount}
+        disabled={page === pageCount || pageCount === 0}
         fullWidth={false}
 
       >
