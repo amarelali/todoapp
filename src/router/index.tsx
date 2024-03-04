@@ -8,6 +8,8 @@ import Auth from "../pages/Auth/Auth";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import NavBar from "../components/NavBar";
 import Home from "../pages/Home";
+import PageNotFound from "../pages/PageNotFound";
+
 const userdata = localStorage.getItem("userdata");
 
 const router = createBrowserRouter(
@@ -33,7 +35,7 @@ const router = createBrowserRouter(
           }
         />
       </Route>
-      <Route path="*" element={<h2>Page Not Found !</h2>} />
+      <Route path="*" element={<PageNotFound/>} />
     </>
   )
 );
