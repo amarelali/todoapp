@@ -156,7 +156,7 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
         </ul>
       </div>
     );
-console.log(data)
+
   if (error) return <span>{error.message}</span>;
   return (
     <>
@@ -245,7 +245,7 @@ console.log(data)
               </>
             ))
           ) : (
-            <div>No TODOs created yet</div>
+            <div>There is no TODOs created yet</div>
           )}
         </ul>
       </div>
