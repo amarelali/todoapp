@@ -1,7 +1,6 @@
 import { Skeleton } from "@mui/material";
 
-interface IProps {}
-const SkeletonTodos = ({}: IProps) => {
+const SkeletonTodos = () => {
   return (
     <li
       className="flex justify-between"

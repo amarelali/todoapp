@@ -11,7 +11,7 @@ import { AxiosError } from "axios";
 import { IErrorMessage } from "../../interfaces";
 import { ToastContainer, toast } from "react-toastify";
 
-const CreateTodos = () => {
+const CreateTodos = ({setQueryVersion}: {setQueryVersion: React.Dispatch<React.SetStateAction<number>>}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,6 +53,7 @@ const CreateTodos = () => {
       setIsLoading(false);
       setIsOpen(false);
       setValue("title", "");
+      setQueryVersion((prev)=>prev+1);
       toast.success(`todo added successfully!`, {
         position: "bottom-center",
       });

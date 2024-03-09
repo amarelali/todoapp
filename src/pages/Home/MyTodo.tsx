@@ -1,40 +1,29 @@
 import { useState } from "react";
-import axiosInstance from "../../config/axios.config";
-import Modal from "../../components/ui/Modal";
-import Button from "../../components/ui/Button";
-import Input from "../../components/ui/Input";
-import { toast } from "react-toastify";
-import { AxiosError } from "axios";
-import { IErrorMessage, IToDo } from "../../interfaces";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import useCustomHook from "../../hooks/useCustomHook";
-import { useMutation } from "@tanstack/react-query";
 import Pagination from "../../components/Pagination";
 import SkeletonTodos from "./SkeletonTodos";
+import CreateTodos from "./CreateTodos";
+import EditToDo from "./EditToDo";
+import DeleteToDo from "./DeleteToDo";
+import { IToDo } from "../../interfaces";
 
 const MyToDo = () => {
-  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
   );
   const [queryVersion, setQueryVersion] = useState(1);
-
-  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-  const [isLoadingEdit, setIsLoadingEdit] = useState(false);
-  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [sortBy, setSortBy] = useState("DESC");
   const [pageSize, setPageSize] = useState("10");
   //pagination data
   const [page, setPage] = useState<number>(1);
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
   //** edit to do storage */
-  const { jwt, user } = JSON.parse(localStorage.getItem("userdata") || "");
+  const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
 
   const { isLoading, error, data } = useCustomHook({
-    queryKey: [
-      "repoData",
-      `${queryVersion}-${sortBy}-${pageSize}-${page}`,
-    ],
+    queryKey: ["repoData", `${queryVersion}-${sortBy}-${pageSize}-${page}`],
     url: `/to-dos?sort=createdAt:${sortBy}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
     config: {
       headers: {
@@ -42,100 +31,7 @@ const MyToDo = () => {
       },
     },
   });
-  // ** modal for edit todo
-  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentToDo({ ...currentToDo, title: e.target.value });
-  };
-  const mutationEdit = useMutation({
-    mutationKey: ["editMutation"],
-    mutationFn: async () => {
-      const { title, id } = currentToDo;
-      const { data } = await axiosInstance.put(
-        `/to-dos/${id}`,
-        {
-          data: {
-            title: title,
-            users: [user.id],
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      return data;
-    },
-    onMutate: () => {
-      setIsLoadingEdit(true);
-    },
-    onSuccess: () => {
-      setEditModalIsOpen(false);
-      setIsLoadingEdit(false);
-      setQueryVersion((prev) => prev + 1);
-      toast.success(`todo edited successfully!`, {
-        position: "bottom-center",
-      });
-    },
-    onError: (error) => {
-      if (error as AxiosError<IErrorMessage>) {
-        const errorObj = error as AxiosError<IErrorMessage>;
-        toast.error(errorObj.response?.data.error.message, {
-          position: "top-center",
-        });
-      } else {
-        toast.error(error.message, {
-          position: "top-center",
-        });
-      }
-      setIsLoadingEdit(false);
-      setEditModalIsOpen(false);
-    },
-  });
-  const editToDo = async () => {
-    mutationEdit.mutate();
-  };
-  // ** modal for delete todo
-  const mutationDelete = useMutation({
-    mutationKey: ["deleteMutation"],
-    mutationFn: async () => {
-      const { id } = currentToDo;
-      const { data } = await axiosInstance.delete(`/to-dos/${id}`, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-      return data;
-    },
-    onMutate: () => {
-      setIsLoadingDelete(true);
-    },
-    onSuccess: () => {
-      setDeleteModalIsOpen(false);
-      setIsLoadingDelete(false);
-      setQueryVersion((prev) => prev + 1);
-      toast.success(`todo deleted successfully!`, {
-        position: "bottom-center",
-      });
-    },
-    onError: (error) => {
-      if (error as AxiosError<IErrorMessage>) {
-        const errorObj = error as AxiosError<IErrorMessage>;
-        toast.error(errorObj.response?.data.error.message, {
-          position: "top-center",
-        });
-      } else {
-        toast.error(error.message, {
-          position: "top-center",
-        });
-      }
-      setIsLoadingDelete(false);
-      setDeleteModalIsOpen(false);
-    },
-  });
-  const deleteToDo = () => {
-    mutationDelete.mutate();
-  };
+
   //** sort by
   const onChangeSortBy = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(event.target.value);
@@ -160,6 +56,7 @@ const MyToDo = () => {
   if (error) return <span>{error.message}</span>;
   return (
     <>
+      <CreateTodos setQueryVersion={setQueryVersion} />
       <div className="space-x-3 flex justify-end m-auto w-4/5 mt-3">
         <select
           className="border-2 border-[#E48700] focus-visible:outline-[0px] rounded-md p-1"
@@ -256,66 +153,19 @@ const MyToDo = () => {
         onClickNext={() => setPage((prev) => prev + 1)}
       />
 
-      {/* modal for edit todo */}
-      <Modal
-        title="Edit todo title"
-        isOpen={editModalIsOpen}
-        onClose={() => setEditModalIsOpen(false)}
-      >
-        <Input
-          className="my-2 w-full"
-          onChange={onChange}
-          value={currentToDo.title}
-        />
-
-        <div className="flex space-x-2">
-          <Button onClick={editToDo} isLoading={isLoadingEdit}>
-            Edit
-          </Button>
-          <Button
-            onClick={() => setEditModalIsOpen(false)}
-            className="bg-gray-400"
-          >
-            Cancel
-          </Button>
-        </div>
-      </Modal>
-
-      {/*  modal for delete todo  */}
-      <Modal
-        title="Delete todo"
-        isOpen={deleteModalIsOpen}
-        onClose={() => setDeleteModalIsOpen(false)}
-        icon={
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-            <ExclamationTriangleIcon
-              className="h-6 w-6 text-red-600"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      >
-        <p className="my-2">
-          Are you sure you want to delete this todo? your data will be
-          permanently removed. This action cannot be undone.
-        </p>
-        <div className="flex space-x-2">
-          <Button
-            onClick={() => {
-              deleteToDo();
-            }}
-            isLoading={isLoadingDelete}
-          >
-            Delete
-          </Button>
-          <Button
-            onClick={() => setDeleteModalIsOpen(false)}
-            className="bg-gray-400"
-          >
-            Cancel
-          </Button>
-        </div>
-      </Modal>
+      <EditToDo
+        setCurrentToDo={setCurrentToDo}
+        setEditModalIsOpen={setEditModalIsOpen}
+        isOpenModal={editModalIsOpen}
+        setQueryVersion={setQueryVersion}
+        currentToDo={currentToDo}
+      />
+      <DeleteToDo
+        deleteModalIsOpen={deleteModalIsOpen}
+        currentToDo={currentToDo}
+        setDeleteModalIsOpen={setDeleteModalIsOpen}
+        setQueryVersion={setQueryVersion}
+      />
     </>
   );
 };

@@ -3,10 +3,9 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Layout from "../pages/Layout";
+import Layout from "../pages/Home/Layout";
 import Auth from "../pages/Auth/Auth";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-import NavBar from "../components/NavBar";
 import Home from "../pages/Home";
 import PageNotFound from "../pages/PageNotFound";
 
@@ -29,7 +28,6 @@ const router = createBrowserRouter(
           path="/todo"
           element={
             <ProtectedRoute isAllowed={userdata !== null} to="/">
-              <NavBar />
               <Home />
             </ProtectedRoute>
           }

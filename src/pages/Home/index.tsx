@@ -1,11 +1,9 @@
 
-import MyToDo from "../MyToDos";
+import MyToDo from "./MyTodo";
 
-import CreateTodos from "./CreateTodos";
 const Home = () => {
   return (
     <>
-      <CreateTodos />
       <MyToDo />
     </>
   );
