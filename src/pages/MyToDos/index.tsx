@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import Pagination from "../../components/Pagination";
 import SkeletonTodos from "./SkeletonTodos";
 
-const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
+const MyToDo = () => {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
@@ -33,7 +33,7 @@ const MyToDo = ({ dataUpdated }: { dataUpdated: number }) => {
   const { isLoading, error, data } = useCustomHook({
     queryKey: [
       "repoData",
-      `${queryVersion}-${dataUpdated}-${sortBy}-${pageSize}-${page}`,
+      `${queryVersion}-${sortBy}-${pageSize}-${page}`,
     ],
     url: `/to-dos?sort=createdAt:${sortBy}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
     config: {
