@@ -3,7 +3,6 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Layout from "../pages/Home/Layout";
 import Auth from "../pages/Auth/Auth";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Home from "../pages/Home";
