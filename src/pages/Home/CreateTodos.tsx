@@ -1,5 +1,5 @@
 import Button from "../../components/ui/Button";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Input from "../../components/ui/Input";
 import Modal from "../../components/ui/Modal";
 import axiosInstance from "../../config/axios.config";
@@ -73,14 +73,15 @@ const CreateTodos = ({setQueryVersion}: {setQueryVersion: React.Dispatch<React.S
       setIsOpen(false);
     },
   });
-  function closeModal() {
+  const closeModal = useCallback(()=>{
     setIsOpen(false);
     setValue("title", "");
-  }
+  },[setValue]);
 
   function openModal() {
     setIsOpen(true);
   }
+
   const addToDo: SubmitHandler<{ title: string }> = (formData) => {
     mutation.mutate(formData);
   };
@@ -88,7 +89,7 @@ const CreateTodos = ({setQueryVersion}: {setQueryVersion: React.Dispatch<React.S
   return (
     <>
       <div className="flex m-auto w-fit">
-        <Button onClick={openModal} className="rounded-md p-2">
+        <Button onClick={useCallback(openModal,[])} className="rounded-md p-2">
           Create TODO
         </Button>
       </div>

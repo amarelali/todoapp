@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 
 interface IProps {
     children:ReactNode;
@@ -8,4 +8,4 @@ const Title= ({children}: IProps) => {
     <h1 className="text-[40px] 2xl:text-[55px] font-medium">{children}</h1>
   );
 };
-export default Title;
+export default memo(Title);

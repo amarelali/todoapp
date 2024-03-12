@@ -1,4 +1,5 @@
 import { Skeleton } from "@mui/material";
+import { memo } from "react";
 
 const SkeletonTodos = () => {
   return (
@@ -22,4 +23,4 @@ const SkeletonTodos = () => {
     </li>
   );
 };
-export default SkeletonTodos;
+export default memo(SkeletonTodos);

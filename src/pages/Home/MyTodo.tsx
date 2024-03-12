@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import useCustomHook from "../../hooks/useCustomHook";
 import Pagination from "../../components/Pagination";
 import SkeletonTodos from "./SkeletonTodos";
@@ -42,6 +42,9 @@ const MyToDo = () => {
     setPageSize(event.target.value);
   };
 
+  const onclickPrev = useCallback(() => setPage((prev) => prev - 1), []);
+  const onclickNext = useCallback(() => setPage((next) => next + 1), []);
+
   if (isLoading)
     return (
       <div className="w-4/5 flex m-auto ">
@@ -56,7 +59,7 @@ const MyToDo = () => {
   if (error) return <span>{error.message}</span>;
   return (
     <>
-      <CreateTodos setQueryVersion={setQueryVersion} />
+      {/* <CreateTodos setQueryVersion={setQueryVersion} /> */}
       <div className="space-x-3 flex justify-end m-auto w-4/5 mt-3">
         <select
           className="border-2 border-[#E48700] focus-visible:outline-[0px] rounded-md p-1"
@@ -79,7 +82,7 @@ const MyToDo = () => {
         </select>
       </div>
 
-      <div className="w-4/5 flex m-auto ">
+      {/* <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
           {data.data.length !== 0 ? (
             data.data.map((e: IToDo) => (
@@ -145,15 +148,15 @@ const MyToDo = () => {
             <div>There is no TODOs created yet</div>
           )}
         </ul>
-      </div>
+      </div> */}
       <Pagination
         page={page}
         pageCount={data.meta.pagination.pageCount}
-        onClickPrev={() => setPage((prev) => prev - 1)}
-        onClickNext={() => setPage((prev) => prev + 1)}
+        onClickPrev={onclickPrev}
+        onClickNext={onclickNext}
       />
 
-      <EditToDo
+      {/* <EditToDo
         setCurrentToDo={setCurrentToDo}
         setEditModalIsOpen={setEditModalIsOpen}
         isOpenModal={editModalIsOpen}
@@ -165,8 +168,8 @@ const MyToDo = () => {
         currentToDo={currentToDo}
         setDeleteModalIsOpen={setDeleteModalIsOpen}
         setQueryVersion={setQueryVersion}
-      />
+      /> */}
     </>
   );
 };
-export default MyToDo;
+export default memo(MyToDo);

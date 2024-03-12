@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Button from "./ui/Button";
 
 interface IProps {
@@ -58,4 +59,4 @@ const Pagination = ({ page =1 , pageCount,onClickPrev,onClickNext }: IProps) => 
     </div>
   );
 };
-export default Pagination;
+export default memo(Pagination);
