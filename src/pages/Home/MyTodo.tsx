@@ -46,31 +46,26 @@ const MyToDo = () => {
   const onclickPrev = useCallback(() => setPage((prev) => prev - 1), []);
   const onclickNext = useCallback(() => setPage((next) => next + 1), []);
 
-  if (isLoading)
-    return (
-      <div className="w-4/5 flex m-auto ">
-        <ul className="w-full sm:w-4/5">
-          {Array.from({ length: 4 }, () => (
-            <SkeletonTodos />
-          ))}
-        </ul>
-      </div>
-    );
+  if (isLoading) return <SkeletonTodos />;
 
   if (error) return <span>{error.message}</span>;
   return (
     <>
       <CreateTodos setQueryVersion={setQueryVersion} />
-      <SortingToDo select={[{
-        values:{ ASC: "Oldest", DESC: "Latest" },
-        onChangeFn:onChangeSortBy,
-        currentValue:sortBy
-      },
-      {
-        values:{10: 10, 50: 50, 100: 100 },
-        onChangeFn:onChangePageSize,
-        currentValue:+pageSize
-      }]} />
+      <SortingToDo
+        select={[
+          {
+            values: { ASC: "Oldest", DESC: "Latest" },
+            onChangeFn: onChangeSortBy,
+            currentValue: sortBy,
+          },
+          {
+            values: { 10: 10, 50: 50, 100: 100 },
+            onChangeFn: onChangePageSize,
+            currentValue: +pageSize,
+          },
+        ]}
+      />
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
           {data.data.length !== 0 ? (
