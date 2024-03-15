@@ -6,6 +6,7 @@ import CreateTodos from "./CreateTodos";
 import EditToDo from "./EditToDo";
 import DeleteToDo from "./DeleteToDo";
 import { IToDo } from "../../interfaces";
+import SortingToDo from "./SortingToDo";
 
 const MyToDo = () => {
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
@@ -60,28 +61,16 @@ const MyToDo = () => {
   return (
     <>
       <CreateTodos setQueryVersion={setQueryVersion} />
-      <div className="space-x-3 flex justify-end m-auto w-4/5 mt-3">
-        <select
-          className="border-2 border-[#E48700] focus-visible:outline-[0px] rounded-md p-1"
-          value={pageSize}
-          onChange={onChangePageSize}
-        >
-          <option disabled>Page size</option>
-          <option value={10}>10</option>
-          <option value={50}>50</option>
-          <option value={100}>100</option>
-        </select>
-        <select
-          className="border-2 border-[#E48700] focus-visible:outline-[0px] rounded-md p-1"
-          value={sortBy}
-          onChange={onChangeSortBy}
-        >
-          <option disabled>Sort by</option>
-          <option value="ASC">Oldest</option>
-          <option value="DESC">Latest</option>
-        </select>
-      </div>
-
+      <SortingToDo select={[{
+        values:{ ASC: "Oldest", DESC: "Latest" },
+        onChangeFn:onChangeSortBy,
+        currentValue:sortBy
+      },
+      {
+        values:{10: 10, 50: 50, 100: 100 },
+        onChangeFn:onChangePageSize,
+        currentValue:+pageSize
+      }]} />
       <div className="w-4/5 flex m-auto ">
         <ul className="w-full sm:w-4/5">
           {data.data.length !== 0 ? (

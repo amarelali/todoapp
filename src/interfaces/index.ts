@@ -32,7 +32,13 @@ export interface IErrorMessage {
 
 export interface IToDo {
     id: number,
-    attributes:{
+    attributes: {
         title: string;
     }
+}
+
+export interface ISortingToDo {
+    values: { [key: number]: number } | { [key: string]: string };
+    onChangeFn: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    currentValue: number | string;
 }
