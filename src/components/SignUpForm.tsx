@@ -4,6 +4,7 @@ import {
   IAuthForm,
   IErrorMessage,
   IInputPropsSignUp,
+  IUser,
 } from "../interfaces";
 import Title from "./ui/Title";
 import Button from "./ui/Button";
@@ -16,6 +17,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import Label from "./ui/label";
 import Input from "./ui/Input";
+import type { RootState } from "../app/store";
+import { useSelector, useDispatch } from "react-redux";
+import { isLoggedIn } from "../features/isLoggedInSlice";
+import { setToken } from "../features/jwt";
+import { userData } from "../features/user/userSlice";
 
 // ** Renders
 const renderInput = ({
@@ -42,6 +48,17 @@ const renderInput = ({
   );
 };
 const SignUpForm = () => {
+  const dispatch = useDispatch();
+  const isLoggedInValue = useSelector(
+    (state: RootState) => state.isLoggedIn.isLoggedInValue
+  );
+  // const user = useSelector((state: RootState) => state.user.user)
+  // const jwt = useSelector((state: RootState) => state.token.tokenValue)
+
+  const dispatchDataUser = (userdata:IUser) => dispatch(userData(userdata));
+  const dispatchIsLoggedIn = (isLoggedInValue:boolean) => dispatch(isLoggedIn(isLoggedInValue));
+  const dispatchJWT = (jwt:string) => dispatch(setToken(jwt));
+  
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -59,11 +76,15 @@ const SignUpForm = () => {
         `auth/local/register`,
         formData
       );
+      
       if (status === 200) {
         localStorage.setItem("userdata", JSON.stringify(data));
         toast.success("Welcome to TODO App!", {
           position: "bottom-center",
         });
+        dispatchDataUser(data.user)
+        dispatchIsLoggedIn(!isLoggedInValue)
+        dispatchJWT(data.jwt)  
         setTimeout(() => {
           location.replace("/todo");
         }, 1000);

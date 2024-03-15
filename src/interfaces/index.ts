@@ -36,3 +36,15 @@ export interface IToDo {
         title: string;
     }
 }
+
+export interface IUser {
+    id:number;
+    email: string;
+    username:string;
+    provider: string;
+    confirmed: true;
+    blocked: false;
+    createdAt: string;
+    updatedAt: string;
+    contact_number:string;
+  }

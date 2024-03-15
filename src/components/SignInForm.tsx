@@ -6,6 +6,7 @@ import {
   IErrorMessage,
   IInputForm,
   IInputPropsSignIn,
+  IUser,
 } from "../interfaces";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +16,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import Label from "./ui/label";
 import Input from "./ui/Input";
+import { RootState } from "../app/store";
+import { useSelector, useDispatch } from "react-redux";
+import { isLoggedIn } from "../features/isLoggedInSlice";
+import { setToken } from "../features/jwt";
+import { userData } from "../features/user/userSlice";
 
 // ** Renders
 const renderInput = ({
@@ -44,8 +50,19 @@ const renderInput = ({
 };
 
 const SignInForm = () => {
+  const dispatch = useDispatch();
+  const isLoggedInValue = useSelector(
+    (state: RootState) => state.isLoggedIn.isLoggedInValue
+  );
   const [isLoading, setIsLoading] = useState(false);
+  // const tokenValue = useSelector(
+  //   (state: RootState) => state.token.tokenValue
+  // );
+  // const user = useSelector((state: RootState) => state.user.user);
 
+  const dispatchDataUser = (userdata:IUser) => dispatch(userData(userdata));
+  const dispatchIsLoggedIn = (isLoggedInValue:boolean) => dispatch(isLoggedIn(isLoggedInValue));
+  const dispatchJWT = (jwt:string) => dispatch(setToken(jwt));
   const {
     register,
     handleSubmit,
@@ -56,8 +73,7 @@ const SignInForm = () => {
   const onSubmit: SubmitHandler<{
     password: string;
     identifier: string;
-  }> = async (formData) => {
-    setIsLoading(true);
+  }> = async (formData) => {  
     try {
       const { data, status } = await axiosInstance.post(`auth/local`, formData);
       if (status === 200) {
@@ -65,6 +81,9 @@ const SignInForm = () => {
         toast.success("Welcome to TODO App!", {
           position: "bottom-center",
         });
+        dispatchDataUser(data.user)
+        dispatchIsLoggedIn(!isLoggedInValue)
+        dispatchJWT(data.jwt)
         setTimeout(() => {
           location.replace("/todo");
         }, 1000);
