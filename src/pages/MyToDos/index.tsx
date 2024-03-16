@@ -1,8 +1,8 @@
 import ToDoItem from "../../components/ToDoItem";
-import useCustomHook from "../../hooks/useCustomHook";
+import SkeletonToDos from "../../components/ToDoItem/SkeletonOneToDo";
+ import useCustomHook from "../../hooks/useCustomHook";
 import { IMyToDo } from "../../interfaces";
-import SkeletonTodos from "../Home/SkeletonTodos";
-
+ 
 const MyToDos = () => {
   const { jwt } = JSON.parse(localStorage.getItem("userdata") || "");
 
@@ -16,7 +16,9 @@ const MyToDos = () => {
     },
   });
   console.log(data);
-  if (isLoading) return <SkeletonTodos />;
+  if (isLoading ) {
+    return <SkeletonToDos />;
+  }
   if (error) return <span>{error.message}</span>;
   return (
     <div className="w-4/5 flex m-auto ">

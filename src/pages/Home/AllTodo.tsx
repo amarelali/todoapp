@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from "react";
 import useCustomHook from "../../hooks/useCustomHook";
 import Pagination from "../../components/Pagination";
-import SkeletonTodos from "./SkeletonTodos";
+import SkeletonAllTodos from "./SkeletonAllTodos";
 import CreateTodos from "./CreateTodos";
 import EditToDo from "./EditToDo";
 import DeleteToDo from "./DeleteToDo";
@@ -47,7 +47,7 @@ const AllToDo = () => {
   const onclickPrev = useCallback(() => setPage((prev) => prev - 1), []);
   const onclickNext = useCallback(() => setPage((next) => next + 1), []);
 
-  if (isLoading) return <SkeletonTodos />;
+  if (isLoading) return <SkeletonAllTodos />;
 
   if (error) return <span>{error.message}</span>;
   return (
