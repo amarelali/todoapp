@@ -2,12 +2,14 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
+const navigation = [{ name: "My ToDos", href: "mytodos", current: false }];
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 const logout = () => {
   localStorage.clear();
-  location.replace('/');
+  location.replace("/");
 };
 export default function NavBar() {
   return (
@@ -29,7 +31,10 @@ export default function NavBar() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center text-black">
+                <a
+                  href="/"
+                  className="cursor-pointer flex flex-shrink-0 items-center text-black"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -45,8 +50,27 @@ export default function NavBar() {
                     />
                   </svg>
                   {"TODO"}
+                </a>
+
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="flex space-x-4">
+                    {navigation.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-black hover:bg-gray-500 hover:text-white",
+                          "rounded-md px-2 py-1"
+                        )}
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-                
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Profile dropdown */}
@@ -91,8 +115,6 @@ export default function NavBar() {
               </div>
             </div>
           </div>
-
- 
         </>
       )}
     </Disclosure>

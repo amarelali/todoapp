@@ -8,6 +8,7 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Home from "../pages/Home";
 import PageNotFound from "../pages/PageNotFound";
 import NavBar from "../components/NavBar";
+import MyToDos from "../pages/MyToDos";
 
 const userdata = localStorage.getItem("userdata");
 
@@ -34,6 +35,15 @@ const router = createBrowserRouter(
           }
         />
       </Route>
+      <Route
+          path="/mytodos"
+          element={
+            <ProtectedRoute isAllowed={userdata !== null} to="/">
+              <NavBar />
+              <MyToDos />
+            </ProtectedRoute>
+          }
+        />
       <Route path="*" element={<PageNotFound/>} />
     </>
   )

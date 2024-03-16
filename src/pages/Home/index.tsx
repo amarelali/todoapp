@@ -1,10 +1,10 @@
 
-import MyToDo from "./MyTodo";
+import AllToDo from "./AllTodo";
 
 const Home = () => {
   return (
     <>
-      <MyToDo />
+      <AllToDo />
     </>
   );
 };

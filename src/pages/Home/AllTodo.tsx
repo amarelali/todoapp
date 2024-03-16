@@ -8,7 +8,7 @@ import DeleteToDo from "./DeleteToDo";
 import { IToDo } from "../../interfaces";
 import SortingToDo from "./SortingToDo";
 
-const MyToDo = () => {
+const AllToDo = () => {
   const [currentToDo, setCurrentToDo] = useState<{ id: number; title: string }>(
     { id: 0, title: "" }
   );
@@ -156,4 +156,4 @@ const MyToDo = () => {
     </>
   );
 };
-export default memo(MyToDo);
+export default memo(AllToDo);

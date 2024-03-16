@@ -36,6 +36,11 @@ export interface IToDo {
         title: string;
     }
 }
+export interface IMyToDo {
+    id: number,
+    title: string;
+}
+
 
 export interface ISortingToDo {
     values: { [key: number]: number } | { [key: string]: string };
